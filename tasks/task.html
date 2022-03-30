@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Kio Problem</title>
+    <script src="../kio_test_box/jquery-1.7.2.min.js"></script>
+    <script src="../kio_test_box/easeljs-1.0.0.min.js"></script>
+    <script src="../kio_test_box/preloadjs-1.0.0.min.js"></script>
+    <script src="../kio_test_box/dces2contest.js"></script>
+    <script src="../kio_test_box/kio_api.js"></script>
+    <link rel="stylesheet" type="text/css" href="../kio_test_box/kio_api.css">
+    <script src="[TASKNAME].js"></script>
+    <link rel="stylesheet" type="text/css" href="[TASKNAME].css">
+</head>
+<body>
+<div id="stud-unique-id" style="display: none">kio-task-[TASKNAME]</div> <!--TODO get this somehow from task id -->
+<div id="problem">
+</div>
+<script>
+    let query = location.search.substr(1).trim().split('&');
+    let level = 0;
+    let assignment = /^([-a-zA-Z_]*?)=(.*)$/;
+    let settings = {};
+    for (let i = 0; i < query.length; i++) {
+        let match = query[i].match(assignment);
+        if (match)
+            settings[match[1]] = match[2];
+        else
+            console.log("Wrong settings assignment: " + query[i]);
+    }
+    console.log("running tasks with the following settings: ", settings);
+
+    document.getElementById('stud-unique-id').innerText = 'kio-task-[TASKNAME]-' + level;
+
+    kio_api.initializeKioProblem(
+        [TASKNAME].[TASKNAME|CAPITALIZE],
+        document.getElementById('problem'),
+        settings
+    );
+</script>
+</body>
+</html>

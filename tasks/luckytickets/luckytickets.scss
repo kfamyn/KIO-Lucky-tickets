@@ -1,0 +1,203 @@
+
+.kio-base-box {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    grid-template-rows: 50% 50%;
+    font-family: Arial, Helvetica, sans-serif;
+
+    .tickets-container {
+        display: grid;
+        grid-template-columns: 210px 210px;
+        height: 250px;
+        .input-ticket-container {
+            text-align: center;
+            .input-ticket-title {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+                margin-top: 10px;
+            }
+            .input-ticket-image {
+                color: black;
+                background-image: url('luckytickets-resources/blue-ticket.png');
+                background-size: 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+                margin: 10px;
+                height: 200px;
+                width: 200px;
+                &.invalid {
+                    .input-number {
+                        border-color: #DD2C00;
+                        background-color: pink;
+                    }
+                }
+                .input-number {
+                    margin-top: 50%;
+                    width: 50%;
+                    margin-left: -10%;
+                    text-align: center;
+                }
+                #notify {
+                    margin-top: 5px;
+                    padding: 10px;
+                    font-size: 12px;
+                    width: 100%;
+                    color: #fff;
+                    display: block;
+                    width: inherit;
+                    opacity: 0.9;
+                  }
+                  #notify.error {
+                    background-color: #DD2C00;
+                  }
+            }
+        }
+        .output-ticket-container {
+            text-align: center;
+            .output-ticket-title {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+                margin-top: 10px;
+            }
+            .output-ticket-image {
+                color: black;
+                background-image: url('luckytickets-resources/red-ticket.png');
+                background-size: 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+                margin: 10px;
+                height: 200px;
+                width: 200px;
+            }
+            .output-number {
+                margin-top: 50%;
+                width: 50%;
+                background-color: white;
+                text-align: center;
+                margin-left: -10%;
+            }
+        }
+    }
+    
+    .buttons-container {
+        height: 250px;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 180px 180px;
+        button {
+            width: 150px;
+            height: 50px;
+            margin: 10px;
+            border-radius: 5px;
+            &.animation-button {
+                visibility: hidden;
+                grid-row-start: 1;
+                grid-row-end: 2;
+            }
+            &.step-plus-button {
+                grid-row-start: 2;
+                grid-row-end: 3;
+            }
+            &.step-minus-button {
+                grid-row-start: 3;
+                grid-row-end: 4;
+            }
+            &.instant-result-button {
+                visibility: hidden;
+                grid-row-start: 2;
+                grid-row-end: 3;
+                grid-column-start: 2;
+                grid-column-end: 2;
+            }
+            &.demo-button {
+                background-color: #9ccc65;
+                grid-row-start: 3;
+                grid-row-end: 4;
+                grid-column-start: 2;
+                grid-column-end: 2;
+                &:hover, &:active {
+                    background-color: #6b9b37;
+                }
+            }
+        }
+    }
+
+    .code-editor {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        // display: grid;
+        // grid-template-columns: 5% 95%;
+        height: 530px;
+        overflow: auto;
+        border-bottom: #767676 solid 1px;
+        .code-editor-header {
+            background: red;
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 2;
+            height: 20px;
+            z-index: 100;
+            border: #767676 solid 1px;
+            background-color: white;
+            display: flex;
+            justify-content: end;
+            .info-icon {
+                background-image: url('luckytickets-resources/info-icon.svg');
+                background-size: 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 18px;
+                width: 18px;
+                margin: 1px;
+                margin-right: 5px;
+                cursor: pointer;
+                filter: opacity(0.5);
+                &:hover {
+                    filter: opacity(1);
+                }
+            }
+        }
+        .code-lines {
+            margin-top: 20px;
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 3;
+            background-color: white;
+            font-family: monospace;
+            text-align: center;
+            padding-top: 3px;
+            color: lightgrey;
+            border: #767676 solid 1px;
+            border-right: none;
+            border-bottom: none;
+            .line-number {
+                display: block;
+            }
+        }
+        textarea {
+            margin-top: 20px;
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 3;
+            width: -webkit-fill-available;
+            border-bottom: none;
+            background-color: white;
+            outline: none;
+            resize: none;
+            overflow: hidden;
+        }
+    }
+}
+
+#blocklyDiv {
+    height: 100%;
+}
+
+#blocklyButton {
+    float: right;
+}
