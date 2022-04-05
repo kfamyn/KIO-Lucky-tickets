@@ -208,12 +208,10 @@ export class Luckytickets implements KioTask {
     }
 
     initialize(domNode: HTMLElement, kioapi: KioApi, preferred_width: number) {
-        console.log('preferred width in problem initialization', preferred_width);
 
         this.kioapi = kioapi;
         this.domNode = domNode;
 
-        console.log('problem level is', this.settings.level);
         const ticketsContainer = document.createElement('div');
         ticketsContainer.className = 'tickets-container';
         this.domNode.appendChild(ticketsContainer);
@@ -352,7 +350,6 @@ export class Luckytickets implements KioTask {
         buttonsContainer.appendChild(demoButton);
 
         demoButton.addEventListener('click', (event) => {
-            console.log(this.storedInput);
             var code = (Blockly as any).JavaScript.workspaceToCode(workspace);
             console.log(code);
             // document.getElementById('textarea').value = code;
