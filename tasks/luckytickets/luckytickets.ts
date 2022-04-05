@@ -314,20 +314,6 @@ export class Luckytickets implements KioTask {
         //     console.log(code);
         // })
 
-        (Blockly as any).Blocks['string_length'] = {
-            init: function() {
-              this.appendValueInput('VALUE')
-                  .setCheck('String')
-                  .appendField('length of');
-              this.setOutput(true, 'Number');
-              this.setColour(160);
-              this.setTooltip('Returns number of letters in the provided text.');
-              this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
-            }
-        };
-
-        workspace.newBlock('string_length');
-        
         const buttonsContainer = document.createElement('div');
         buttonsContainer.className = 'buttons-container';
         this.domNode.appendChild(buttonsContainer);
@@ -365,44 +351,10 @@ export class Luckytickets implements KioTask {
         demoButton.className = 'demo-button';
         buttonsContainer.appendChild(demoButton);
 
-        (Blockly as any).Blocks['generic_block'] = {
-            init: function() {
-              this.jsonInit({
-                message0: '',
-                colour: '230'
-              });
-            }
-          };
-          var lineBlock = workspace.newBlock('generic_block');         // create new instance of generic block
-          var input = lineBlock.appendDummyInput();                               // create a dummy input
-          var blockText="Hello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s World";                                       // one line of the JS code
-          var currentLine = blockText.split(/(%s)/);                            // split every word
-          for( var y = 0; y < currentLine.length; y++ ) {                       // loop through each word
-              if(currentLine[y]==='%s') {                                         // if the word is %s, then append input field
-                  input.appendField(new Blockly.FieldTextInput('input'+y));         // input+y is the name of the field
-              } else {                                                                         // else just append label field
-                  var labelField = new (Blockly as any).FieldLabel('label'+y);                         // label+y is the name of the field
-                  labelField.setValue(currentLine[y]);                                          // set the label value to the word
-                  input.appendField(labelField)
-              }
-          }
         demoButton.addEventListener('click', (event) => {
             console.log(this.storedInput);
-            var lineBlock = workspace.newBlock('generic_block');         // create new instance of generic block
-            var input=lineBlock.appendDummyInput();                               // create a dummy input
-            var blockText="Hello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s World";                                       // one line of the JS code
-            var currentLine = blockText.split(/(%s)/);                            // split every word
-            for( var y = 0; y < currentLine.length; y++ ) {                       // loop through each word
-                if(currentLine[y]==='%s') {                                         // if the word is %s, then append input field
-                    input.appendField(new Blockly.FieldTextInput('input'+y));         // input+y is the name of the field
-                } else {                                                                         // else just append label field
-                    var labelField = new (Blockly as any).FieldLabel('label'+y);                         // label+y is the name of the field
-                    labelField.setValue(currentLine[y]);                                          // set the label value to the word
-                    input.appendField(labelField)
-                }
-            }
-            // var code = (Blockly as any).JavaScript.workspaceToCode(workspace);
-            // console.log(code);
+            var code = (Blockly as any).JavaScript.workspaceToCode(workspace);
+            console.log(code);
             // document.getElementById('textarea').value = code;
             // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
             // for (var i=0; i<myblocks.length; i++){
@@ -416,20 +368,6 @@ export class Luckytickets implements KioTask {
             //     this.callJSFunction(jsFunctionString);
             // }
         });
-
-        var parentBlock = workspace.newBlock('text_print');
-        parentBlock.initSvg();
-        parentBlock.render();
-
-        var childBlock = workspace.newBlock('text');
-
-        childBlock.setFieldValue('Hello', 'TEXT');
-        childBlock.initSvg();
-        childBlock.render();
-
-        var parentConnection = parentBlock.getInput('TEXT').connection;
-        var childConnection = childBlock.outputConnection;
-        parentConnection.connect(childConnection);
 
         const animationButton = document.createElement('button');
         animationButton.innerText = 'АНИМАЦИЯ ПЕРЕБОРА';
