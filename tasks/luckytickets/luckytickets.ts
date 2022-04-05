@@ -171,6 +171,17 @@ const ToolboxConfig = {
                     ],
                 }
             ]
+        },
+        {
+            "kind": "category",
+            "name": "Выражение",
+            "colour": "Green",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "expression"
+                },
+            ]
         }
         // {
         //     "type": "example_variable_untyped",
@@ -206,7 +217,7 @@ export class Luckytickets implements KioTask {
     id() {
         return "luckytickets" + this.settings.level;
     }
-
+    
     initialize(domNode: HTMLElement, kioapi: KioApi, preferred_width: number) {
         console.log('preferred width in problem initialization', preferred_width);
 
