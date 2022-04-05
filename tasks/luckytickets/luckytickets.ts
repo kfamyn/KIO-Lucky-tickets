@@ -350,6 +350,7 @@ export class Luckytickets implements KioTask {
         buttonsContainer.appendChild(demoButton);
 
 
+
         demoButton.addEventListener('click', (event) => {
             var code = (Blockly as any).JavaScript.workspaceToCode(workspace);
             console.log(code);
