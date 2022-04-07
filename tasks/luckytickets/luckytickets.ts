@@ -237,7 +237,7 @@ export class Luckytickets implements KioTask {
 
         const inputTicketImage = document.createElement('form');
         inputTicketImage.className = 'input-ticket-image';
-        inputTicketImage.innerHTML = '<input maxlength="6" class="input-number" placeholder="abcdef">';
+        inputTicketImage.innerHTML = '<input maxlength="6" class="input-number" placeholder="abcdef" type="text">';
         inputTicketContainer.appendChild(inputTicketImage);
         var elem = document.createElement('div');
         elem.id = 'notify';
@@ -361,11 +361,11 @@ export class Luckytickets implements KioTask {
         buttonsContainer.appendChild(demoButton);
 
 
-
-
         demoButton.addEventListener('click', (event) => {
             var code = (Blockly as any).JavaScript.workspaceToCode(workspace);
             console.log(code);
+            let input = document.querySelector('input');
+            console.log(input.value);
             // document.getElementById('textarea').value = code;
             // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
             // for (var i=0; i<myblocks.length; i++){
