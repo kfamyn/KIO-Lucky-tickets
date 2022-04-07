@@ -366,6 +366,7 @@ export class Luckytickets implements KioTask {
             console.log(code);
             let input = document.querySelector('input');
             console.log(input.value);
+            console.log(nextTicket(input.value))
             // document.getElementById('textarea').value = code;
             // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
             // for (var i=0; i<myblocks.length; i++){
@@ -386,6 +387,88 @@ export class Luckytickets implements KioTask {
         buttonsContainer.appendChild(animationButton);
         animationButton.addEventListener('click', (event) => {
         });
+        function nextTicket(ticket:any) {
+            function positive(ticket:any) {
+                let a = (ticket % 1000000 - ticket % 100000) / 100000;
+                let b = (ticket % 100000 - ticket % 10000) / 10000;
+                let c = (ticket % 10000 - ticket % 1000) / 1000;
+                let d = (ticket % 1000 - ticket % 100) / 100;
+                let e = (ticket % 100 - ticket % 10) / 10;
+                let f = (ticket % 10 - ticket % 1);
+                let s1 = a + b + c;
+                let s2 = d + e + f;
+                let diff = s1 - s2;
+                if (9 - f >= diff) {
+                    f += diff;
+                }
+                else if (18 - f - e >= diff) {
+                    e += diff - 9 + f;
+                    f = 9;
+                }
+                else {
+                    d += diff - 18 + e + f;
+                    e = 9;
+                    f = 9;
+                }
+                let key = String(a) + String(b) + String(c) + String(d) + String(e) + String(f);
+                return (key);
+            }
+
+            function negative(ticket:any) {
+                let a = (ticket % 1000000 - ticket % 100000) / 100000;
+                let b = (ticket % 100000 - ticket % 10000) / 10000;
+                let c = (ticket % 10000 - ticket % 1000) / 1000;
+                let d = (ticket % 1000 - ticket % 100) / 100;
+                let e = (ticket % 100 - ticket % 10) / 10;
+                let f = (ticket % 10 - ticket % 1);
+                let s1 = a + b + c;
+                let s2 = d + e + f;
+                let diff = s2 - s1;
+                let key;
+                if ((diff <= f - 1) && (e != 9)) {
+                    f = (diff - f + 1) * -1;
+                    e += 1;
+                }
+                else if ((diff <= f + e - 1) && (d != 9)) {
+                    d += 1;
+                    diff = (diff - f - e + 1) * -1;
+                    if (diff > 9) {
+                        f = 9;
+                        e = diff - f;
+                    }
+                    else {
+                        f = diff;
+                        e = 0;
+                    }
+                }
+                else {
+                    ticket += 1000 - 100 * d - 10 * e - f;
+                    key = positive(ticket);
+                }
+                if (!key) {
+                    key = String(a) + String(b) + String(c) + String(d) + String(e) + String(f);
+                }
+                return (key);
+            }
+            ticket = Number(ticket) + 1;
+            let a = (ticket % 1000000 - ticket % 100000) / 100000;
+            let b = (ticket % 100000 - ticket % 10000) / 10000;
+            let c = (ticket % 10000 - ticket % 1000) / 1000;
+            let d = (ticket % 1000 - ticket % 100) / 100;
+            let e = (ticket % 100 - ticket % 10) / 10;
+            let f = (ticket % 10 - ticket % 1);
+            let s1 = a + b + c;
+            let s2 = d + e + f;
+            let diff = s1 - s2;
+            let key;
+            if (diff < 0) {
+                key = negative(ticket);
+            }
+            else {
+                key = positive(ticket);
+            }
+            return (key);
+        }
     }
 
     private validInput(ticketNumber: InputEvent): boolean {
