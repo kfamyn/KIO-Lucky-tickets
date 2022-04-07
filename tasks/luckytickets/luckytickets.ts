@@ -367,6 +367,8 @@ export class Luckytickets implements KioTask {
             let input = document.querySelector('input');
             console.log(input.value);
             console.log(nextTicket(input.value))
+            const outputField = <HTMLInputElement>document.getElementById('output-field');
+            outputField.value = nextTicket(input.value);
             // document.getElementById('textarea').value = code;
             // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
             // for (var i=0; i<myblocks.length; i++){
