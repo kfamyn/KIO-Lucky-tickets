@@ -4,6 +4,8 @@ export interface KioApi {
     getResource(id: string): HTMLElement;
 
     problem: { message(msg: string): string; }
+
+    basePath: string;
 }
 
 
@@ -17,12 +19,22 @@ export interface KioTask {
     solution(): {};
 
     loadSolution(solution: {}): void;
+
+    settings?: KioTaskSettings;
 }
 
 export interface KioTaskStatic {
     new(settings: KioTaskSettings): KioTask;
 
     preloadManifest(): KioResourceDescription;
+}
+
+export interface KioTaskParameters {
+    parameters(): KioParameterDescription[];
+}
+
+export interface KioTaskParametersStatic {
+    new(settings: KioTaskSettings): KioTaskParameters;
 }
 
 export interface KioTaskSettings {
