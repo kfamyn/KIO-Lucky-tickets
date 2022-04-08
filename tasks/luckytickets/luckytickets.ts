@@ -395,12 +395,14 @@ export class Luckytickets implements KioTask {
                 if (UserResult == nextTicket(input.value))
                 {
                     console.log("right");
-                    outputField.style.color = "green";
+                    // outputField.style.color = "green";
+                    outputField.style.background = "lightgreen";
                 }
                 else
                 {
                     console.log("wrong");
-                    outputField.style.color = "red";
+                    // outputField.style.color = "red";
+                    outputField.style.background = "pink";
                 }
             } catch (e) {
                 alert(e);
