@@ -7,7 +7,7 @@
 
     .tickets-container {
         display: grid;
-        grid-template-columns: 210px 210px;
+        grid-template-columns: 210px 210px 210px;
         height: 250px;
         .input-ticket-container {
             text-align: center;
@@ -70,6 +70,31 @@
                 width: 200px;
             }
             .output-number {
+                margin-top: 50%;
+                width: 50%;
+                background-color: white;
+                text-align: center;
+                margin-left: -10%;
+            }
+        }
+        .rightOutput-ticket-container {
+            text-align: center;
+            .rightOutput-ticket-title {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+                margin-top: 10px;
+            }
+            .rightOutput-ticket-image {
+                color: black;
+                background-image: url('luckytickets-resources/green-ticket.png');
+                background-size: 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+                margin: 10px;
+                height: 200px;
+                width: 200px;
+            }
+            .rightOutput-number {
                 margin-top: 50%;
                 width: 50%;
                 background-color: white;
