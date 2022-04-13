@@ -1,5 +1,5 @@
 import './luckytickets.scss'
-import {KioApi, KioTask, KioParameterDescription, KioResourceDescription, KioTaskSettings} from "../KioApi";
+import { KioApi, KioTask, KioParameterDescription, KioResourceDescription, KioTaskSettings } from "../KioApi";
 import * as Blockly from '../../node_modules/blockly/core';
 import '../../node_modules/blockly/blocks';
 import '../../node_modules/blockly/javascript';
@@ -171,6 +171,17 @@ const ToolboxConfig = {
                     ],
                 }
             ]
+        },
+        {
+            "kind": "category",
+            "name": "Выражение",
+            "colour": "Green",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "expression"
+                },
+            ]
         }
         // {
         //     "type": "example_variable_untyped",
@@ -193,7 +204,7 @@ export class Luckytickets implements KioTask {
     private linesCount = 1;
     private linesArray = [1];
     private blockly = Blockly;
-    
+
     private complexExpressionTree: BaseToken = {
         operation: '',
         operands: []
@@ -208,12 +219,10 @@ export class Luckytickets implements KioTask {
     }
 
     initialize(domNode: HTMLElement, kioapi: KioApi, preferred_width: number) {
-        console.log('preferred width in problem initialization', preferred_width);
 
         this.kioapi = kioapi;
         this.domNode = domNode;
 
-        console.log('problem level is', this.settings.level);
         const ticketsContainer = document.createElement('div');
         ticketsContainer.className = 'tickets-container';
         this.domNode.appendChild(ticketsContainer);
@@ -228,12 +237,12 @@ export class Luckytickets implements KioTask {
 
         const inputTicketImage = document.createElement('form');
         inputTicketImage.className = 'input-ticket-image';
-        inputTicketImage.innerHTML = '<input maxlength="6" class="input-number" placeholder="abcdef">';
+        inputTicketImage.innerHTML = '<input maxlength="6" class="input-number" placeholder="abcdef" type="text">';
         inputTicketContainer.appendChild(inputTicketImage);
         var elem = document.createElement('div');
         elem.id = 'notify';
         elem.style.display = 'none';
-  
+
         inputTicketImage.appendChild(elem);
         inputTicketImage.addEventListener('input', (event: InputEvent) => {
             if (event?.data) {
@@ -243,7 +252,7 @@ export class Luckytickets implements KioTask {
                     elem.style.display = 'none';
                 } else {
                     inputTicketImage.classList.add('invalid');
-                    elem.textContent   = 'Номер билета должен быть шестизначным числом';
+                    elem.textContent = 'Номер билета должен быть шестизначным числом';
                     elem.className = 'error';
                     elem.style.display = 'block';
                 }
@@ -270,6 +279,22 @@ export class Luckytickets implements KioTask {
 
         ticketsContainer.appendChild(outputTicketContainer);
 
+
+        const rightOutputTicketContainer = document.createElement('div');
+        rightOutputTicketContainer.className = 'rightOutput-ticket-container';
+
+        const rightOutputTicketTitle = document.createElement('div');
+        rightOutputTicketTitle.className = 'rightOutput-ticket-title';
+        rightOutputTicketTitle.innerText = 'Следующий счастливый билет';
+        rightOutputTicketContainer.appendChild(rightOutputTicketTitle);
+
+        const rightOutputTicketImage = document.createElement('div');
+        rightOutputTicketImage.className = 'rightOutput-ticket-image';
+        rightOutputTicketImage.innerHTML = '<input disabled class="rightOutput-number" id="rightOutput-field" placeholder="xyzuvw">';
+        rightOutputTicketContainer.appendChild(rightOutputTicketImage);
+
+        ticketsContainer.appendChild(rightOutputTicketContainer);
+        
         // const codeEditor = document.createElement('div');
         // codeEditor.className = 'code-editor';
         // codeEditor.innerHTML = '<div class="code-editor-header" id="code-editor-header-id"></div><div class="code-lines" id="ruler"></div><textarea id="text-from-editor"></textarea>';
@@ -282,7 +307,7 @@ export class Luckytickets implements KioTask {
         // editorHeader.appendChild(infoIcon);
 
         // const editorElement = <HTMLTextAreaElement>document.getElementById('text-from-editor');
-        
+
         // if (editorElement) {
         //     const ruler = document.getElementById('ruler');
         //     ruler.innerHTML = `<div class="line-number" id="${this.linesArray[0].toString()}">${this.linesArray[0].toString()}</div>`;
@@ -307,6 +332,13 @@ export class Luckytickets implements KioTask {
                 media: 'luckytickets-resources/'
             });
         const lang = 'JavaScript';
+        workspace.createVariable('a')
+        workspace.createVariable('b');
+        workspace.createVariable('c');
+        workspace.createVariable('d');
+        workspace.createVariable('e');
+        workspace.createVariable('f');
+        workspace.createVariable('result');
         // const button = document.getElementById('blocklyButton');
         // button.addEventListener('click', function () {
         //     alert("Check the console for the generated output.");
@@ -314,20 +346,6 @@ export class Luckytickets implements KioTask {
         //     console.log(code);
         // })
 
-        (Blockly as any).Blocks['string_length'] = {
-            init: function() {
-              this.appendValueInput('VALUE')
-                  .setCheck('String')
-                  .appendField('length of');
-              this.setOutput(true, 'Number');
-              this.setColour(160);
-              this.setTooltip('Returns number of letters in the provided text.');
-              this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
-            }
-        };
-
-        workspace.newBlock('string_length');
-        
         const buttonsContainer = document.createElement('div');
         buttonsContainer.className = 'buttons-container';
         this.domNode.appendChild(buttonsContainer);
@@ -365,43 +383,61 @@ export class Luckytickets implements KioTask {
         demoButton.className = 'demo-button';
         buttonsContainer.appendChild(demoButton);
 
-        (Blockly as any).Blocks['generic_block'] = {
-            init: function() {
-              this.jsonInit({
-                message0: '',
-                colour: '230'
-              });
+
+        demoButton.addEventListener('click', (event) => {
+            var UserResult, ticket, CountRight = 0;
+            var set_function = 'function UserTicket(ticket) {\n'
+            var setting_variables = 'var a, b, c, d, e, f, result;'
+            var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;'
+            var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;'
+            var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;'
+            var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;'
+            var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;'
+            var setting_f = 'f = (ticket % 10 - ticket % 1);'
+            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' +setting_c + '\n' +setting_d + '\n' +setting_e + '\n' + setting_f;
+            //var code = set_function;
+            code += (Blockly as any).JavaScript.workspaceToCode(workspace);
+            code += '\n return result;\n}\n\n';
+            code += 'UserResult = UserTicket(ticket);'
+            console.log(code);
+            let input = document.querySelector('input');
+            console.log(input.value);
+            console.log(nextTicket(input.value))
+            ticket = input.value;
+            const outputField = <HTMLInputElement>document.getElementById('output-field');
+            const rightOutputField = <HTMLInputElement>document.getElementById('rightOutput-field');
+            try {
+                eval(code);
+                console.log(UserResult);
+                if (UserResult == nextTicket(input.value))
+                {
+                    console.log("right");
+                    outputField.style.color = "lime"
+                }
+                else
+                {
+                    console.log("wrong");
+                    outputField.style.color = "red";
+                }
+            } catch (e) {
+                alert(e);
             }
-          };
-          var lineBlock = workspace.newBlock('generic_block');         // create new instance of generic block
-          var input = lineBlock.appendDummyInput();                               // create a dummy input
-          var blockText="Hello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s World";                                       // one line of the JS code
-          var currentLine = blockText.split(/(%s)/);                            // split every word
-          for( var y = 0; y < currentLine.length; y++ ) {                       // loop through each word
-              if(currentLine[y]==='%s') {                                         // if the word is %s, then append input field
-                  input.appendField(new Blockly.FieldTextInput('input'+y));         // input+y is the name of the field
-              } else {                                                                         // else just append label field
-                  var labelField = new (Blockly as any).FieldLabel('label'+y);                         // label+y is the name of the field
-                  labelField.setValue(currentLine[y]);                                          // set the label value to the word
-                  input.appendField(labelField)
-              }
-          }
-        demoButton.addEventListener('click', () => {
-            var lineBlock = workspace.newBlock('generic_block');         // create new instance of generic block
-            var input=lineBlock.appendDummyInput();                               // create a dummy input
-            var blockText="Hello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s WorldHello %s World";                                       // one line of the JS code
-            var currentLine = blockText.split(/(%s)/);                            // split every word
-            for( var y = 0; y < currentLine.length; y++ ) {                       // loop through each word
-                if(currentLine[y]==='%s') {                                         // if the word is %s, then append input field
-                    input.appendField(new Blockly.FieldTextInput('input'+y));         // input+y is the name of the field
-                } else {                                                                         // else just append label field
-                    var labelField = new (Blockly as any).FieldLabel('label'+y);                         // label+y is the name of the field
-                    labelField.setValue(currentLine[y]);                                          // set the label value to the word
-                    input.appendField(labelField)
+            outputField.value = ('000000' + UserResult).slice(-6);
+            rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+            for (var i = 0; i < 100000; i++)
+            {
+                ticket = i;
+                try {
+                    eval(code);
+                } catch (e) {
+                    alert(e);
+                }
+                if (UserResult == nextTicket(ticket))
+                {
+                    CountRight++;
                 }
             }
-            // var code = (Blockly as any).JavaScript.workspaceToCode(workspace);
-            // console.log(code);
+            console.log(CountRight);
             // document.getElementById('textarea').value = code;
             // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
             // for (var i=0; i<myblocks.length; i++){
@@ -416,26 +452,94 @@ export class Luckytickets implements KioTask {
             // }
         });
 
-        var parentBlock = workspace.newBlock('text_print');
-        parentBlock.initSvg();
-        parentBlock.render();
-
-        var childBlock = workspace.newBlock('text');
-
-        childBlock.setFieldValue('Hello', 'TEXT');
-        childBlock.initSvg();
-        childBlock.render();
-
-        var parentConnection = parentBlock.getInput('TEXT').connection;
-        var childConnection = childBlock.outputConnection;
-        parentConnection.connect(childConnection);
-
         const animationButton = document.createElement('button');
         animationButton.innerText = 'АНИМАЦИЯ ПЕРЕБОРА';
         animationButton.className = 'animation-button';
         buttonsContainer.appendChild(animationButton);
         animationButton.addEventListener('click', (event) => {
         });
+        function nextTicket(ticket: any) {
+            function positive(ticket: any) {
+                let a = (ticket % 1000000 - ticket % 100000) / 100000;
+                let b = (ticket % 100000 - ticket % 10000) / 10000;
+                let c = (ticket % 10000 - ticket % 1000) / 1000;
+                let d = (ticket % 1000 - ticket % 100) / 100;
+                let e = (ticket % 100 - ticket % 10) / 10;
+                let f = (ticket % 10 - ticket % 1);
+                let s1 = a + b + c;
+                let s2 = d + e + f;
+                let diff = s1 - s2;
+                if (9 - f >= diff) {
+                    f += diff;
+                }
+                else if (18 - f - e >= diff) {
+                    e += diff - 9 + f;
+                    f = 9;
+                }
+                else {
+                    d += diff - 18 + e + f;
+                    e = 9;
+                    f = 9;
+                }
+                let key = String(a) + String(b) + String(c) + String(d) + String(e) + String(f);
+                return (key);
+            }
+
+            function negative(ticket: any) {
+                let a = (ticket % 1000000 - ticket % 100000) / 100000;
+                let b = (ticket % 100000 - ticket % 10000) / 10000;
+                let c = (ticket % 10000 - ticket % 1000) / 1000;
+                let d = (ticket % 1000 - ticket % 100) / 100;
+                let e = (ticket % 100 - ticket % 10) / 10;
+                let f = (ticket % 10 - ticket % 1);
+                let s1 = a + b + c;
+                let s2 = d + e + f;
+                let diff = s2 - s1;
+                let key;
+                if ((diff <= f - 1) && (e != 9)) {
+                    f = f - diff - 1;
+                    e += 1;
+                }
+                else if ((diff <= f + e - 1) && (d != 9)) {
+                    d += 1;
+                    diff = (diff - f - e + 1) * -1;
+                    if (diff > 9) {
+                        f = 9;
+                        e = diff - f;
+                    }
+                    else {
+                        f = diff;
+                        e = 0;
+                    }
+                }
+                else {
+                    ticket += 1000 - 100 * d - 10 * e - f;
+                    key = positive(ticket);
+                }
+                if (!key) {
+                    key = String(a) + String(b) + String(c) + String(d) + String(e) + String(f);
+                }
+                return (key);
+            }
+            ticket = Number(ticket) + 1;
+            let a = (ticket % 1000000 - ticket % 100000) / 100000;
+            let b = (ticket % 100000 - ticket % 10000) / 10000;
+            let c = (ticket % 10000 - ticket % 1000) / 1000;
+            let d = (ticket % 1000 - ticket % 100) / 100;
+            let e = (ticket % 100 - ticket % 10) / 10;
+            let f = (ticket % 10 - ticket % 1);
+            let s1 = a + b + c;
+            let s2 = d + e + f;
+            let diff = s1 - s2;
+            let key;
+            if (diff < 0) {
+                key = negative(ticket);
+            }
+            else {
+                key = positive(ticket);
+            }
+            return (key);
+        }
     }
 
     private validInput(ticketNumber: InputEvent): boolean {
@@ -610,13 +714,13 @@ export class Luckytickets implements KioTask {
         }
         if (codeLine.includes(OperatorsList.IF)) {
             conditionExpression.condition = 'if';
-            conditionExpression.expression = codeLine.substring(OperatorsList.IF.length); 
+            conditionExpression.expression = codeLine.substring(OperatorsList.IF.length);
         } else if (codeLine.includes(OperatorsList.ELSE)) {
             conditionExpression.condition = 'else';
-            conditionExpression.expression = codeLine.substring(OperatorsList.ELSE.length); 
+            conditionExpression.expression = codeLine.substring(OperatorsList.ELSE.length);
         } else if (codeLine.includes(OperatorsList.THEN)) {
             conditionExpression.condition = 'then';
-            conditionExpression.expression = codeLine.substring(OperatorsList.THEN.length); 
+            conditionExpression.expression = codeLine.substring(OperatorsList.THEN.length);
         }
         return conditionExpression;
     }
@@ -634,24 +738,24 @@ export class Luckytickets implements KioTask {
             } else if (codeLine.condition === 'else' || codeLine.condition === 'then') {
                 decomposedLine.comparator = '=';
             }
-            decomposedLine.left = codeLine.expression.split(OperatorsList.EQUALS)[0]; 
-            decomposedLine.right = codeLine.expression.split(OperatorsList.EQUALS)[1]; 
+            decomposedLine.left = codeLine.expression.split(OperatorsList.EQUALS)[0];
+            decomposedLine.right = codeLine.expression.split(OperatorsList.EQUALS)[1];
         } else if (codeLine.expression.includes(OperatorsList.LT)) {
             decomposedLine.comparator = '<';
-            decomposedLine.left = codeLine.expression.split(OperatorsList.LT)[0]; 
-            decomposedLine.right = codeLine.expression.split(OperatorsList.LT)[1]; 
+            decomposedLine.left = codeLine.expression.split(OperatorsList.LT)[0];
+            decomposedLine.right = codeLine.expression.split(OperatorsList.LT)[1];
         } else if (codeLine.expression.includes(OperatorsList.LTE)) {
             decomposedLine.comparator = '<=';
-            decomposedLine.left = codeLine.expression.split(OperatorsList.LTE)[0]; 
-            decomposedLine.right = codeLine.expression.split(OperatorsList.LTE)[1]; 
+            decomposedLine.left = codeLine.expression.split(OperatorsList.LTE)[0];
+            decomposedLine.right = codeLine.expression.split(OperatorsList.LTE)[1];
         } else if (codeLine.expression.includes(OperatorsList.GT)) {
             decomposedLine.comparator = '>';
-            decomposedLine.left = codeLine.expression.split(OperatorsList.GT)[0]; 
-            decomposedLine.right = codeLine.expression.split(OperatorsList.GT)[1]; 
+            decomposedLine.left = codeLine.expression.split(OperatorsList.GT)[0];
+            decomposedLine.right = codeLine.expression.split(OperatorsList.GT)[1];
         } else if (codeLine.expression.includes(OperatorsList.GTE)) {
             decomposedLine.comparator = '>=';
-            decomposedLine.left = codeLine.expression.split(OperatorsList.GTE)[0]; 
-            decomposedLine.right = codeLine.expression.split(OperatorsList.GTE)[1]; 
+            decomposedLine.left = codeLine.expression.split(OperatorsList.GTE)[0];
+            decomposedLine.right = codeLine.expression.split(OperatorsList.GTE)[1];
         }
         return decomposedLine;
     }
