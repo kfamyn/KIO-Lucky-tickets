@@ -279,6 +279,22 @@ export class Luckytickets implements KioTask {
 
         ticketsContainer.appendChild(outputTicketContainer);
 
+
+        const rightOutputTicketContainer = document.createElement('div');
+        rightOutputTicketContainer.className = 'rightOutput-ticket-container';
+
+        const rightOutputTicketTitle = document.createElement('div');
+        rightOutputTicketTitle.className = 'rightOutput-ticket-title';
+        rightOutputTicketTitle.innerText = 'Следующий счастливый билет';
+        rightOutputTicketContainer.appendChild(rightOutputTicketTitle);
+
+        const rightOutputTicketImage = document.createElement('div');
+        rightOutputTicketImage.className = 'rightOutput-ticket-image';
+        rightOutputTicketImage.innerHTML = '<input disabled class="rightOutput-number" id="rightOutput-field" placeholder="xyzuvw">';
+        rightOutputTicketContainer.appendChild(rightOutputTicketImage);
+
+        ticketsContainer.appendChild(rightOutputTicketContainer);
+        
         // const codeEditor = document.createElement('div');
         // codeEditor.className = 'code-editor';
         // codeEditor.innerHTML = '<div class="code-editor-header" id="code-editor-header-id"></div><div class="code-lines" id="ruler"></div><textarea id="text-from-editor"></textarea>';
@@ -389,14 +405,14 @@ export class Luckytickets implements KioTask {
             console.log(nextTicket(input.value))
             ticket = input.value;
             const outputField = <HTMLInputElement>document.getElementById('output-field');
+            const rightOutputField = <HTMLInputElement>document.getElementById('rightOutput-field');
             try {
                 eval(code);
                 console.log(UserResult);
                 if (UserResult == nextTicket(input.value))
                 {
                     console.log("right");
-                    // outputField.style.color = "green";
-                    outputField.style.background = "lightgreen";
+                    outputField.style.color = "lime"
                 }
                 else
                 {
@@ -408,6 +424,7 @@ export class Luckytickets implements KioTask {
                 alert(e);
             }
             outputField.value = ('000000' + UserResult).slice(-6);
+            rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
             for (var i = 0; i < 100000; i++)
             {
                 ticket = i;
@@ -481,7 +498,7 @@ export class Luckytickets implements KioTask {
                 let diff = s2 - s1;
                 let key;
                 if ((diff <= f - 1) && (e != 9)) {
-                    f = (diff - f + 1) * -1;
+                    f = f - diff - 1;
                     e += 1;
                 }
                 else if ((diff <= f + e - 1) && (d != 9)) {
