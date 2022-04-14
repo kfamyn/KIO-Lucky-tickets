@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: 35% 65%;
     grid-template-rows: 50% 50%;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Times New Roman", Arial, Helvetica, sans-serif;
 
     .tickets-container {
         display: grid;
@@ -12,7 +12,7 @@
         .input-ticket-container {
             text-align: center;
             .input-ticket-title {
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: "Times New Roman", Arial, Helvetica, sans-serif;
                 font-size: 20px;
                 margin-top: 10px;
             }
@@ -23,8 +23,8 @@
                 background-position: center;
                 background-repeat: no-repeat;
                 margin: 10px;
-                height: 200px;
-                width: 200px;
+                height: 210px;
+                width: 210px;
                 &.invalid {
                     .input-number {
                         border-color: #DD2C00;
@@ -55,7 +55,7 @@
         .output-ticket-container {
             text-align: center;
             .output-ticket-title {
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: "Times New Roman", Arial, Helvetica, sans-serif;
                 font-size: 20px;
                 margin-top: 10px;
             }
@@ -66,8 +66,8 @@
                 background-position: center;
                 background-repeat: no-repeat;
                 margin: 10px;
-                height: 200px;
-                width: 200px;
+                height: 210px;
+                width: 210px;
             }
             .output-number {
                 margin-top: 50%;
@@ -80,7 +80,7 @@
         .rightOutput-ticket-container {
             text-align: center;
             .rightOutput-ticket-title {
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: "Times New Roman", Arial, Helvetica, sans-serif;
                 font-size: 20px;
                 margin-top: 10px;
             }
@@ -91,8 +91,8 @@
                 background-position: center;
                 background-repeat: no-repeat;
                 margin: 10px;
-                height: 200px;
-                width: 200px;
+                height: 210px;
+                width: 210px;
             }
             .rightOutput-number {
                 margin-top: 50%;

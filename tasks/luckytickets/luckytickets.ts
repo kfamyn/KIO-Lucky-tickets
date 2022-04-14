@@ -209,7 +209,7 @@ export class Luckytickets implements KioTask {
 
         const inputTicketTitle = document.createElement('div');
         inputTicketTitle.className = 'input-ticket-title';
-        inputTicketTitle.innerText = 'Текущий номер билета';
+        inputTicketTitle.innerText = 'Текущий номер\nбилета';
         inputTicketContainer.appendChild(inputTicketTitle);
 
         const inputTicketImage = document.createElement('form');
@@ -246,7 +246,7 @@ export class Luckytickets implements KioTask {
 
         const outputTicketTitle = document.createElement('div');
         outputTicketTitle.className = 'output-ticket-title';
-        outputTicketTitle.innerText = 'Следующий счастливый билет';
+        outputTicketTitle.innerText = 'Следующий\nсчастливый билет';
         outputTicketContainer.appendChild(outputTicketTitle);
 
         const outputTicketImage = document.createElement('div');
@@ -262,7 +262,7 @@ export class Luckytickets implements KioTask {
 
         const rightOutputTicketTitle = document.createElement('div');
         rightOutputTicketTitle.className = 'rightOutput-ticket-title';
-        rightOutputTicketTitle.innerText = 'Следующий счастливый билет';
+        rightOutputTicketTitle.innerText = 'Следующий\nсчастливый билет';
         rightOutputTicketContainer.appendChild(rightOutputTicketTitle);
 
         const rightOutputTicketImage = document.createElement('div');
@@ -389,12 +389,12 @@ export class Luckytickets implements KioTask {
                 if (UserResult == nextTicket(input.value))
                 {
                     console.log("right");
-                    outputField.style.color = "lime"
+                    outputField.style.color = "green"
                 }
                 else
                 {
                     console.log("wrong");
-                    outputField.style.color = "red";
+                    outputField.style.color = "#ff9999"
                 }
             } catch (e) {
                 alert(e);
