@@ -140,48 +140,6 @@ const ToolboxConfig = {
             "name": "Переменные",
             "colour": "%{BKY_VARIABLES_HUE}",
             "custom": "VARIABLE",
-        },
-        {
-            "kind": "category",
-            "name": "Заданные переменные",
-            "colour": "Green",
-            "contents": [
-                // {
-                //     'kind': 'block',
-                //     'type': 'variables_set'
-                // },
-                // {
-                //     'kind': 'block',
-                //     'type': 'variables_get'
-                // },
-                {
-                    'kind': 'block',
-                    "type": "variables_set",
-                    "message0": "%{BKY_VARIABLES_SET}",
-                    "args0": [
-                        {
-                            'type': 'field_variable',
-                            'name': 'VAR',
-                            'variable': '%{BKY_VARIABLES_DEFAULT_NAME}',
-                        },
-                        {
-                            'type': 'input_value',
-                            'name': 'VALUE',
-                        },
-                    ],
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Выражение",
-            "colour": "Green",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "expression"
-                },
-            ]
         }
         // {
         //     "type": "example_variable_untyped",
@@ -422,8 +380,13 @@ export class Luckytickets implements KioTask {
             } catch (e) {
                 alert(e);
             }
-            outputField.value = ('000000' + UserResult).slice(-6);
+            if (UserResult)
+            {
+                outputField.value = ('000000' + UserResult).slice(-6);
+            }
             rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+            if (!input.value)
+            input.value = '000000'
             for (var i = 0; i < 100000; i++)
             {
                 ticket = i;
