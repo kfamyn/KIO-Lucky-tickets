@@ -107,6 +107,10 @@ const ToolboxConfig = {
                 },
                 {
                     "kind": "block",
+                    "type": "logic_operation"
+                },
+                {
+                    "kind": "block",
                     "type": "math_number"
                 },
                 {
@@ -140,6 +144,21 @@ const ToolboxConfig = {
             "name": "Переменные",
             "colour": "%{BKY_VARIABLES_HUE}",
             "custom": "VARIABLE",
+        },
+        {
+            "kind": "category",
+            "name": "Функции",
+            "colour": "%{BKY_PROCEDURES_HUE}",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "procedures_defnoreturn"
+                },
+                {
+                    "kind": "block",
+                    "type": "procedures_defreturn"
+                }
+            ]
         }
         // {
         //     "type": "example_variable_untyped",
