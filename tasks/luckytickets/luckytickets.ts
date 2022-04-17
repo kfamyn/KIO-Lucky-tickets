@@ -197,7 +197,7 @@ const ToolboxConfig = {
     ]
 }
 export class Luckytickets implements KioTask {
-    private settings: KioTaskSettings;
+    public settings: KioTaskSettings;
     private kioapi: KioApi;
     private domNode: HTMLElement;
     private storedInput = '';
