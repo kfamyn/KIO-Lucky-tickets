@@ -149,16 +149,7 @@ const ToolboxConfig = {
             "kind": "category",
             "name": "Функции",
             "colour": "%{BKY_PROCEDURES_HUE}",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "procedures_defnoreturn"
-                },
-                {
-                    "kind": "block",
-                    "type": "procedures_defreturn"
-                }
-            ]
+            "custom": "PROCEDURE"
         }
         // {
         //     "type": "example_variable_untyped",
