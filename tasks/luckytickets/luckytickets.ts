@@ -444,7 +444,7 @@ export class Luckytickets implements KioTask {
             rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
             if (!input.value)
             input.value = '000000'
-            for (var i = 0; i < 100000; i++)
+            for (var i = 0; i < 1; i++)
             {
                 ticket = i;
                 try {
