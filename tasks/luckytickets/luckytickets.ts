@@ -323,6 +323,7 @@ export class Luckytickets implements KioTask {
         stepPlusButton.innerText = 'СЛЕДУЮЩАЯ ОШИБКА';
         buttonsContainer.appendChild(stepPlusButton);
         stepPlusButton.addEventListener('click', (event) => {
+            exportBlocks();
         });
 
         const instantResultButton = document.createElement('button');
@@ -351,6 +352,52 @@ export class Luckytickets implements KioTask {
         demoButton.className = 'demo-button';
         buttonsContainer.appendChild(demoButton);
 
+        function exportBlocks() {
+            try {
+              var xml = Blockly.Xml.workspaceToDom(workspace);
+              var xml_text = Blockly.Xml.domToText(xml);
+                
+              var link = document.createElement('a');
+              link.download="project.txt";
+              link.href="data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
+              document.body.appendChild(link);
+              link.click();
+              link.remove();
+            } catch (e) {
+              window.location.href="data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
+              alert(e);
+            }
+          }
+              
+          function importBlocks() {
+            try {
+              var xml_text = prompt("Please enter XML code", "");
+              var xml = Blockly.Xml.textToDom(xml_text);
+              workspace.clear();
+              Blockly.Xml.domToWorkspace(xml, workspace);
+            } catch (e) {
+              alert(e);
+            }
+          }
+
+          function importBlocksFile(element) {
+            try {	
+              var file = element.files[0];
+              var fr = new FileReader();           
+              fr.onload = function (event) {
+                var xml = Blockly.Xml.textToDom(<string>event.target.result);
+                workspace.clear();
+                Blockly.Xml.domToWorkspace(xml, workspace);
+              };
+              fr.readAsText(file);
+            } catch (e) {
+              alert(e);
+            }	  
+          }
+
+          stepMinusButton.addEventListener('click', (event) => {
+            importBlocksFile("project.txt");
+          })
 
         demoButton.addEventListener('click', (event) => {
             var UserResult, ticket, CountRight = 0;
