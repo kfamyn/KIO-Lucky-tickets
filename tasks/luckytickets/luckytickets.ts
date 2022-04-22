@@ -107,6 +107,10 @@ const ToolboxConfig = {
                 },
                 {
                     "kind": "block",
+                    "type": "logic_operation"
+                },
+                {
+                    "kind": "block",
                     "type": "math_number"
                 },
                 {
@@ -143,45 +147,9 @@ const ToolboxConfig = {
         },
         {
             "kind": "category",
-            "name": "Заданные переменные",
-            "colour": "Green",
-            "contents": [
-                // {
-                //     'kind': 'block',
-                //     'type': 'variables_set'
-                // },
-                // {
-                //     'kind': 'block',
-                //     'type': 'variables_get'
-                // },
-                {
-                    'kind': 'block',
-                    "type": "variables_set",
-                    "message0": "%{BKY_VARIABLES_SET}",
-                    "args0": [
-                        {
-                            'type': 'field_variable',
-                            'name': 'VAR',
-                            'variable': '%{BKY_VARIABLES_DEFAULT_NAME}',
-                        },
-                        {
-                            'type': 'input_value',
-                            'name': 'VALUE',
-                        },
-                    ],
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Выражение",
-            "colour": "Green",
-            "contents": [
-                {
-                    "kind": "block",
-                    "type": "expression"
-                },
-            ]
+            "name": "Функции",
+            "colour": "%{BKY_PROCEDURES_HUE}",
+            "custom": "PROCEDURE"
         }
         // {
         //     "type": "example_variable_untyped",
@@ -232,7 +200,7 @@ export class Luckytickets implements KioTask {
 
         const inputTicketTitle = document.createElement('div');
         inputTicketTitle.className = 'input-ticket-title';
-        inputTicketTitle.innerText = 'Текущий номер билета';
+        inputTicketTitle.innerText = 'Текущий номер\nбилета';
         inputTicketContainer.appendChild(inputTicketTitle);
 
         const inputTicketImage = document.createElement('form');
@@ -269,7 +237,7 @@ export class Luckytickets implements KioTask {
 
         const outputTicketTitle = document.createElement('div');
         outputTicketTitle.className = 'output-ticket-title';
-        outputTicketTitle.innerText = 'Следующий счастливый билет';
+        outputTicketTitle.innerText = 'Следующий\nсчастливый билет';
         outputTicketContainer.appendChild(outputTicketTitle);
 
         const outputTicketImage = document.createElement('div');
@@ -285,7 +253,7 @@ export class Luckytickets implements KioTask {
 
         const rightOutputTicketTitle = document.createElement('div');
         rightOutputTicketTitle.className = 'rightOutput-ticket-title';
-        rightOutputTicketTitle.innerText = 'Следующий счастливый билет';
+        rightOutputTicketTitle.innerText = 'Следующий\nсчастливый билет';
         rightOutputTicketContainer.appendChild(rightOutputTicketTitle);
 
         const rightOutputTicketImage = document.createElement('div');
@@ -355,6 +323,7 @@ export class Luckytickets implements KioTask {
         stepPlusButton.innerText = 'СЛЕДУЮЩАЯ ОШИБКА';
         buttonsContainer.appendChild(stepPlusButton);
         stepPlusButton.addEventListener('click', (event) => {
+            exportBlocks();
         });
 
         const instantResultButton = document.createElement('button');
@@ -383,6 +352,52 @@ export class Luckytickets implements KioTask {
         demoButton.className = 'demo-button';
         buttonsContainer.appendChild(demoButton);
 
+        function exportBlocks() {
+            try {
+              var xml = Blockly.Xml.workspaceToDom(workspace);
+              var xml_text = Blockly.Xml.domToText(xml);
+                
+              var link = document.createElement('a');
+              link.download="project.txt";
+              link.href="data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
+              document.body.appendChild(link);
+              link.click();
+              link.remove();
+            } catch (e) {
+              window.location.href="data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
+              alert(e);
+            }
+          }
+              
+          function importBlocks() {
+            try {
+              var xml_text = prompt("Please enter XML code", "");
+              var xml = Blockly.Xml.textToDom(xml_text);
+              workspace.clear();
+              Blockly.Xml.domToWorkspace(xml, workspace);
+            } catch (e) {
+              alert(e);
+            }
+          }
+
+          function importBlocksFile(element) {
+            try {	
+              var file = element.files[0];
+              var fr = new FileReader();           
+              fr.onload = function (event) {
+                var xml = Blockly.Xml.textToDom(<string>event.target.result);
+                workspace.clear();
+                Blockly.Xml.domToWorkspace(xml, workspace);
+              };
+              fr.readAsText(file);
+            } catch (e) {
+              alert(e);
+            }	  
+          }
+
+          stepMinusButton.addEventListener('click', (event) => {
+            importBlocksFile("project.txt");
+          })
 
         demoButton.addEventListener('click', (event) => {
             var UserResult, ticket, CountRight = 0;
@@ -412,19 +427,24 @@ export class Luckytickets implements KioTask {
                 if (UserResult == nextTicket(input.value))
                 {
                     console.log("right");
-                    outputField.style.color = "lime"
+                    outputField.style.color = "green"
                 }
                 else
                 {
                     console.log("wrong");
-                    outputField.style.color = "red";
+                    outputField.style.color = "#ff9999"
                 }
             } catch (e) {
                 alert(e);
             }
-            outputField.value = ('000000' + UserResult).slice(-6);
+            if (UserResult)
+            {
+                outputField.value = ('000000' + UserResult).slice(-6);
+            }
             rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
-            for (var i = 0; i < 100000; i++)
+            if (!input.value)
+            input.value = '000000'
+            for (var i = 0; i < 1; i++)
             {
                 ticket = i;
                 try {
