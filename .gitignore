@@ -1,5 +1,4 @@
 /.idea/
-/dist/
 /dist-prod/
 /*.iml
 #/kio_test_box/
