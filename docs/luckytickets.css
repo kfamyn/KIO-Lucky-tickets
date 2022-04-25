@@ -1,0 +1,192 @@
+/*!***********************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./tasks/luckytickets/luckytickets.scss ***!
+  \***********************************************************************************************************************************************************/
+.kio-base-box {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  grid-template-rows: 50% 50%;
+  font-family: "Times New Roman", Arial, Helvetica, sans-serif; }
+  .kio-base-box .tickets-container {
+    display: grid;
+    grid-template-columns: 210px 210px 210px;
+    height: 250px; }
+    .kio-base-box .tickets-container .input-ticket-container {
+      text-align: center; }
+      .kio-base-box .tickets-container .input-ticket-container .input-ticket-title {
+        font-family: "Times New Roman", Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        margin-top: 10px; }
+      .kio-base-box .tickets-container .input-ticket-container .input-ticket-image {
+        color: black;
+        background-image: url("luckytickets-resources/blue-ticket.png");
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 10px;
+        height: 210px;
+        width: 210px; }
+        .kio-base-box .tickets-container .input-ticket-container .input-ticket-image.invalid .input-number {
+          border-color: #DD2C00;
+          background-color: pink; }
+        .kio-base-box .tickets-container .input-ticket-container .input-ticket-image .input-number {
+          margin-top: 50%;
+          width: 50%;
+          margin-left: -10%;
+          text-align: center; }
+        .kio-base-box .tickets-container .input-ticket-container .input-ticket-image #notify {
+          margin-top: 5px;
+          padding: 10px;
+          font-size: 12px;
+          width: 100%;
+          color: #fff;
+          display: block;
+          width: inherit;
+          opacity: 0.9; }
+        .kio-base-box .tickets-container .input-ticket-container .input-ticket-image #notify.error {
+          background-color: #DD2C00; }
+    .kio-base-box .tickets-container .output-ticket-container {
+      text-align: center; }
+      .kio-base-box .tickets-container .output-ticket-container .output-ticket-title {
+        font-family: "Times New Roman", Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        margin-top: 10px; }
+      .kio-base-box .tickets-container .output-ticket-container .output-ticket-image {
+        color: black;
+        background-image: url("luckytickets-resources/red-ticket.png");
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 10px;
+        height: 210px;
+        width: 210px; }
+      .kio-base-box .tickets-container .output-ticket-container .output-number {
+        margin-top: 50%;
+        width: 50%;
+        background-color: white;
+        text-align: center;
+        margin-left: -10%; }
+    .kio-base-box .tickets-container .rightOutput-ticket-container {
+      text-align: center; }
+      .kio-base-box .tickets-container .rightOutput-ticket-container .rightOutput-ticket-title {
+        font-family: "Times New Roman", Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        margin-top: 10px; }
+      .kio-base-box .tickets-container .rightOutput-ticket-container .rightOutput-ticket-image {
+        color: black;
+        background-image: url("luckytickets-resources/green-ticket.png");
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 10px;
+        height: 210px;
+        width: 210px; }
+      .kio-base-box .tickets-container .rightOutput-ticket-container .rightOutput-number {
+        margin-top: 50%;
+        width: 50%;
+        background-color: white;
+        text-align: center;
+        margin-left: -10%; }
+  .kio-base-box .buttons-container {
+    height: 250px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 180px 180px; }
+    .kio-base-box .buttons-container button {
+      width: 150px;
+      height: 50px;
+      margin: 10px;
+      border-radius: 5px; }
+      .kio-base-box .buttons-container button.animation-button {
+        visibility: hidden;
+        grid-row-start: 1;
+        grid-row-end: 2; }
+      .kio-base-box .buttons-container button.step-plus-button {
+        grid-row-start: 2;
+        grid-row-end: 3; }
+      .kio-base-box .buttons-container button.step-minus-button {
+        grid-row-start: 3;
+        grid-row-end: 4; }
+      .kio-base-box .buttons-container button.instant-result-button {
+        visibility: hidden;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        grid-column-start: 2;
+        grid-column-end: 2; }
+      .kio-base-box .buttons-container button.demo-button {
+        background-color: #9ccc65;
+        grid-row-start: 3;
+        grid-row-end: 4;
+        grid-column-start: 2;
+        grid-column-end: 2; }
+        .kio-base-box .buttons-container button.demo-button:hover, .kio-base-box .buttons-container button.demo-button:active {
+          background-color: #6b9b37; }
+  .kio-base-box .code-editor {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    height: 700px;
+    overflow: auto;
+    border-bottom: #767676 solid 1px; }
+    .kio-base-box .code-editor .code-editor-header {
+      background: red;
+      grid-column-start: 1;
+      grid-column-end: 3;
+      grid-row-start: 1;
+      grid-row-end: 2;
+      height: 20px;
+      z-index: 100;
+      border: #767676 solid 1px;
+      background-color: white;
+      display: flex;
+      justify-content: end; }
+      .kio-base-box .code-editor .code-editor-header .info-icon {
+        background-image: url("luckytickets-resources/info-icon.svg");
+        background-size: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 18px;
+        width: 18px;
+        margin: 1px;
+        margin-right: 5px;
+        cursor: pointer;
+        filter: opacity(0.5); }
+        .kio-base-box .code-editor .code-editor-header .info-icon:hover {
+          filter: opacity(1); }
+    .kio-base-box .code-editor .code-lines {
+      margin-top: 20px;
+      grid-column-start: 1;
+      grid-column-end: 2;
+      grid-row-start: 1;
+      grid-row-end: 3;
+      background-color: white;
+      font-family: monospace;
+      text-align: center;
+      padding-top: 3px;
+      color: lightgrey;
+      border: #767676 solid 1px;
+      border-right: none;
+      border-bottom: none; }
+      .kio-base-box .code-editor .code-lines .line-number {
+        display: block; }
+    .kio-base-box .code-editor textarea {
+      margin-top: 20px;
+      grid-column-start: 2;
+      grid-column-end: 3;
+      grid-row-start: 1;
+      grid-row-end: 3;
+      width: -webkit-fill-available;
+      border-bottom: none;
+      background-color: white;
+      outline: none;
+      resize: none;
+      overflow: hidden; }
+
+#blocklyDiv {
+  height: 100%; }
+
+#blocklyButton {
+  float: right; }
+
+
+/*# sourceMappingURL=luckytickets.css.map*/
