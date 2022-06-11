@@ -1,21 +1,23 @@
-
 .kio-base-box {
     display: grid;
     grid-template-columns: 35% 65%;
     grid-template-rows: 50% 50%;
-    font-family: "Times New Roman", Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat', "Times New Roman", Arial, Helvetica, sans-serif;
 
     .tickets-container {
         display: grid;
         grid-template-columns: 210px 210px 210px;
         height: 250px;
+
         .input-ticket-container {
             text-align: center;
+
             .input-ticket-title {
-                font-family: "Times New Roman", Arial, Helvetica, sans-serif;
+                font-family: 'Montserrat', "Times New Roman", Arial, Helvetica, sans-serif;
                 font-size: 20px;
                 margin-top: 10px;
             }
+
             .input-ticket-image {
                 color: black;
                 background-image: url('luckytickets-resources/blue-ticket.png');
@@ -25,18 +27,21 @@
                 margin: 10px;
                 height: 210px;
                 width: 210px;
+
                 &.invalid {
                     .input-number {
                         border-color: #DD2C00;
                         background-color: pink;
                     }
                 }
+
                 .input-number {
                     margin-top: 50%;
                     width: 50%;
                     margin-left: -10%;
                     text-align: center;
                 }
+
                 #notify {
                     margin-top: 5px;
                     padding: 10px;
@@ -46,19 +51,23 @@
                     display: block;
                     width: inherit;
                     opacity: 0.9;
-                  }
-                  #notify.error {
+                }
+
+                #notify.error {
                     background-color: #DD2C00;
-                  }
+                }
             }
         }
+
         .output-ticket-container {
             text-align: center;
+
             .output-ticket-title {
-                font-family: "Times New Roman", Arial, Helvetica, sans-serif;
+                font-family: 'Montserrat', "Times New Roman", Arial, Helvetica, sans-serif;
                 font-size: 20px;
                 margin-top: 10px;
             }
+
             .output-ticket-image {
                 color: black;
                 background-image: url('luckytickets-resources/red-ticket.png');
@@ -69,6 +78,7 @@
                 height: 210px;
                 width: 210px;
             }
+
             .output-number {
                 margin-top: 50%;
                 width: 50%;
@@ -77,13 +87,16 @@
                 margin-left: -10%;
             }
         }
+
         .rightOutput-ticket-container {
             text-align: center;
+
             .rightOutput-ticket-title {
-                font-family: "Times New Roman", Arial, Helvetica, sans-serif;
+                font-family: 'Montserrat', "Times New Roman", Arial, Helvetica, sans-serif;
                 font-size: 20px;
                 margin-top: 10px;
             }
+
             .rightOutput-ticket-image {
                 color: black;
                 background-image: url('luckytickets-resources/green-ticket.png');
@@ -94,6 +107,7 @@
                 height: 210px;
                 width: 210px;
             }
+
             .rightOutput-number {
                 margin-top: 50%;
                 width: 50%;
@@ -103,44 +117,163 @@
             }
         }
     }
-    
+
     .buttons-container {
         height: 250px;
-        padding: 20px;
         display: grid;
         grid-template-columns: 180px 180px;
         button {
             width: 150px;
             height: 50px;
-            margin: 10px;
-            border-radius: 5px;
             &.animation-button {
+                border: 1px solid #ffffff;
                 visibility: hidden;
                 grid-row-start: 1;
                 grid-row-end: 2;
+                text-decoration: none;
+                display: inline-block;
+                width: 140px;
+                height: 45px;
+                line-height: 45px;
+                border-radius: 45px;
+                margin: 10px 20px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 11px;
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 3px;
+                font-weight: 600;
+                color: #524f4e;
+                background: white;
+                box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+                transition: .3s;
+                &:hover,
+                &:active {
+                    box-shadow: 0 15px 20px rgba(139, 139, 139, 0.4);
+                    transform: translateY(-3px);
+                    cursor: pointer;
+                }
             }
+
             &.step-plus-button {
+                border: 1px solid #ffffff;
                 grid-row-start: 2;
                 grid-row-end: 3;
+                text-decoration: none;
+                display: inline-block;
+                width: 140px;
+                height: 45px;
+                line-height: 20px;
+                border-radius: 45px;
+                margin: 10px 20px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 11px;
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 3px;
+                font-weight: 600;
+                color: #524f4e;
+                background: white;
+                box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+                transition: .3s;
+                &:hover,
+                &:active {
+                    box-shadow: 0 15px 20px rgba(139, 139, 139, 0.4);
+                    transform: translateY(-3px);
+                    cursor: pointer;
+                }
             }
+
             &.step-minus-button {
+                border: 1px solid #ffffff;
                 grid-row-start: 3;
                 grid-row-end: 4;
+                text-decoration: none;
+                display: inline-block;
+                width: 140px;
+                height: 45px;
+                line-height: 20px;
+                border-radius: 45px;
+                margin: 10px 20px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 11px;
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 3px;
+                font-weight: 600;
+                color: #524f4e;
+                background: white;
+                box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+                transition: .3s;
+                &:hover,
+                &:active {
+                    box-shadow: 0 15px 20px rgba(139, 139, 139, 0.4);
+                    transform: translateY(-3px);
+                    cursor: pointer;
+                }
             }
+
             &.instant-result-button {
+                border: 1px solid #ffffff;
                 grid-row-start: 2;
                 grid-row-end: 3;
                 grid-column-start: 2;
                 grid-column-end: 2;
+                text-decoration: none;
+                display: inline-block;
+                width: 140px;
+                height: 45px;
+                line-height: 20px;
+                border-radius: 45px;
+                margin: 10px 20px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 11px;
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 2px;
+                font-weight: 600;
+                color: #524f4e;
+                background: white;
+                box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+                transition: .3s;
+                &:hover,
+                &:active {
+                    box-shadow: 0 15px 20px rgba(139, 139, 139, 0.4);
+                    transform: translateY(-3px);
+                    cursor: pointer;
+                }
             }
+
             &.demo-button {
-                background-color: #9ccc65;
+                border: 1px solid #cbffd4;
                 grid-row-start: 3;
                 grid-row-end: 4;
                 grid-column-start: 2;
                 grid-column-end: 2;
-                &:hover, &:active {
-                    background-color: #6b9b37;
+                text-decoration: none;
+                display: inline-block;
+                width: 140px;
+                height: 45px;
+                line-height: 45px;
+                border-radius: 45px;
+                margin: 10px 20px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 11px;
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 3px;
+                font-weight: 600;
+                color: #524f4e;
+                background: white;
+                box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+                transition: .3s;
+                &:hover,
+                &:active {
+                    background: #d7ffde;
+                    border: 1px solid #d7ffde;
+                    box-shadow: 0 15px 20px rgba(46, 229, 156, 0.336);
+                    transform: translateY(-3px);
+                    cursor: pointer;
                 }
             }
         }
@@ -156,6 +289,7 @@
         height: 700px;
         overflow: auto;
         border-bottom: #767676 solid 1px;
+
         .code-editor-header {
             background: red;
             grid-column-start: 1;
@@ -168,6 +302,7 @@
             background-color: white;
             display: flex;
             justify-content: end;
+
             .info-icon {
                 background-image: url('luckytickets-resources/info-icon.svg');
                 background-size: 100%;
@@ -179,11 +314,13 @@
                 margin-right: 5px;
                 cursor: pointer;
                 filter: opacity(0.5);
+
                 &:hover {
                     filter: opacity(1);
                 }
             }
         }
+
         .code-lines {
             margin-top: 20px;
             grid-column-start: 1;
@@ -198,10 +335,12 @@
             border: #767676 solid 1px;
             border-right: none;
             border-bottom: none;
+
             .line-number {
                 display: block;
             }
         }
+
         textarea {
             margin-top: 20px;
             grid-column-start: 2;
