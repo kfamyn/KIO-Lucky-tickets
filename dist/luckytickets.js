@@ -388,8 +388,9 @@ module$contents$Blockly$serialization$blocks_tryToConnectParent=function(a,b,c){
 b,c);if(!a.connect(d)){var e=b.workspace.connectionChecker;throw new module$exports$Blockly$serialization$exceptions.BadConnectionCheck(e.getErrorMessage(e.canConnectWithReason(d,a,!1),d,a),a.type===$.module$exports$Blockly$inputTypes.inputTypes.VALUE?"output connection":"previous connection",b,c);}}},module$contents$Blockly$serialization$blocks_loadIcons=function(a,b){b.icons&&(b=b.icons.comment)&&(a.setCommentText(b.text),a.commentModel.pinned=b.pinned,a.commentModel.size=new module$exports$Blockly$utils$Size.Size(b.width,
 b.height),b.pinned&&a.getCommentIcon&&!a.isInFlyout&&setTimeout(function(){return a.getCommentIcon().setVisible(!0)},1))},module$contents$Blockly$serialization$blocks_loadFields=function(a,b){if(b.fields)for(var c=Object.keys(b.fields),d=0;d<c.length;d++){var e=c[d],f=b.fields[e],g=a.getField(e);g?g.loadState(f):console.warn("Ignoring non-existant field "+e+" in block "+a.type)}},module$contents$Blockly$serialization$blocks_loadInputBlocks=function(a,b){if(b.inputs)for(var c=Object.keys(b.inputs),
 d=0;d<c.length;d++){var e=c[d],f=a.getInput(e);if(!f||!f.connection)throw new module$exports$Blockly$serialization$exceptions.MissingConnection(e,a,b);module$contents$Blockly$serialization$blocks_loadConnection(f.connection,b.inputs[e])}},module$contents$Blockly$serialization$blocks_loadNextBlocks=function(a,b){if(b.next){if(!a.nextConnection)throw new module$exports$Blockly$serialization$exceptions.MissingConnection("next",a,b);module$contents$Blockly$serialization$blocks_loadConnection(a.nextConnection,
-b.next)}},module$contents$Blockly$serialization$blocks_loadConnection=function(a,b){b.shadow&&a.setShadowState(b.shadow);b.block&&module$contents$Blockly$serialization$blocks_appendPrivate(b.block,a.getSourceBlock().workspace,{parentConnection:a})},module$contents$Blockly$serialization$blocks_initBlock=function(a,b){b?(a.setConnectionTracking(!1),a.initSvg(),a.render(!1)):a.initModel()},module$contents$Blockly$serialization$blocks_saveBlock=module$exports$Blockly$serialization$blocks.save,module$contents$Blockly$serialization$blocks_BlockSerializer=
-function(){this.priority=module$exports$Blockly$serialization$priorities.BLOCKS};module$contents$Blockly$serialization$blocks_BlockSerializer.prototype.save=function(a){var b=[];a=$jscomp.makeIterator(a.getTopBlocks(!1));for(var c=a.next();!c.done;c=a.next())(c=module$contents$Blockly$serialization$blocks_saveBlock(c.value,{addCoordinates:!0,doFullSerialization:!1}))&&b.push(c);return b.length?{languageVersion:0,blocks:b}:null};
+b.next)}},module$contents$Blockly$serialization$blocks_loadConnection=function(a,b){b.shadow&&a.setShadowState(b.shadow);b.block&&module$contents$Blockly$serialization$blocks_appendPrivate(b.block,a.getSourceBlock().workspace,{parentConnection:a})},module$contents$Blockly$serialization$blocks_initBlock=function(a,b){if(b)for(a.setConnectionTracking(!1),a.initSvg(),a.render(!1),a=a.getIcons(),b=0;b<a.length;b++)a[b].computeIconLocation();else a.initModel()},module$contents$Blockly$serialization$blocks_saveBlock=
+module$exports$Blockly$serialization$blocks.save,module$contents$Blockly$serialization$blocks_BlockSerializer=function(){this.priority=module$exports$Blockly$serialization$priorities.BLOCKS};
+module$contents$Blockly$serialization$blocks_BlockSerializer.prototype.save=function(a){var b=[];a=$jscomp.makeIterator(a.getTopBlocks(!1));for(var c=a.next();!c.done;c=a.next())(c=module$contents$Blockly$serialization$blocks_saveBlock(c.value,{addCoordinates:!0,doFullSerialization:!1}))&&b.push(c);return b.length?{languageVersion:0,blocks:b}:null};
 module$contents$Blockly$serialization$blocks_BlockSerializer.prototype.load=function(a,b){a=$jscomp.makeIterator(a.blocks);for(var c=a.next();!c.done;c=a.next())(0,module$exports$Blockly$serialization$blocks.append)(c.value,b,{recordUndo:(0,module$exports$Blockly$Events$utils.getRecordUndo)()})};module$contents$Blockly$serialization$blocks_BlockSerializer.prototype.clear=function(a){a=$jscomp.makeIterator(a.getTopBlocks(!1));for(var b=a.next();!b.done;b=a.next())b.value.dispose(!1)};
 (0,module$exports$Blockly$serialization$registry.register)("blocks",new module$contents$Blockly$serialization$blocks_BlockSerializer);var module$exports$Blockly$Events$Abstract=function(){this.isBlank=null;this.workspaceId=void 0;this.group=(0,module$exports$Blockly$Events$utils.getGroup)();this.recordUndo=(0,module$exports$Blockly$Events$utils.getRecordUndo)()};module$exports$Blockly$Events$Abstract.prototype.isUiEvent=!1;module$exports$Blockly$Events$Abstract.prototype.toJson=function(){var a={type:this.type};this.group&&(a.group=this.group);return a};
 module$exports$Blockly$Events$Abstract.prototype.fromJson=function(a){this.isBlank=!1;this.group=a.group};module$exports$Blockly$Events$Abstract.prototype.isNull=function(){return!1};module$exports$Blockly$Events$Abstract.prototype.run=function(a){};
@@ -2004,7 +2005,7 @@ $.module$exports$Blockly$Mutator.Mutator.prototype.updateWorkspace_=function(){i
 b=g.rendered;g.rendered=!1;g.compose(this.rootBlock_);g.rendered=b;g.initSvg();g.rendered&&g.render();b=module$exports$Blockly$Events$BlockChange.BlockChange.getExtraBlockState_(g);if(a!==b){(0,module$exports$Blockly$Events$utils.fire)(new ((0,module$exports$Blockly$Events$utils.get)(module$exports$Blockly$Events$utils.CHANGE))(g,"mutation",null,a,b));var h=(0,module$exports$Blockly$Events$utils.getGroup)();setTimeout(function(){(0,module$exports$Blockly$Events$utils.setGroup)(h);g.bumpNeighbours();
 (0,module$exports$Blockly$Events$utils.setGroup)(!1)},$.module$exports$Blockly$internalConstants.BUMP_DELAY)}this.workspace_.isDragging()||this.resizeBubble_();(0,module$exports$Blockly$Events$utils.setGroup)(!1)}};$.module$exports$Blockly$Mutator.Mutator.prototype.dispose=function(){this.block_.mutator=null;module$exports$Blockly$Icon.Icon.prototype.dispose.call(this)};
 $.module$exports$Blockly$Mutator.Mutator.prototype.updateBlockStyle=function(){var a=this.workspace_;if(a&&a.getAllBlocks(!1)){for(var b=a.getAllBlocks(!1),c=0,d;d=b[c];c++)d.setStyle(d.getStyleName());if(a=a.getFlyout())for(a=a.workspace_.getAllBlocks(!1),b=0;c=a[b];b++)c.setStyle(c.getStyleName())}};
-$.module$exports$Blockly$Mutator.Mutator.reconnect=function(a,b,c){if(!a||!a.getSourceBlock().workspace)return!1;c=b.getInput(c).connection;var d=a.targetBlock();return d&&d!==b||c.targetConnection===a?!1:(c.isConnected()&&c.disconnect(),c.connect(a),!0)};$.module$exports$Blockly$Mutator.Mutator.findParentWs=function(a){var b=null;if(a&&a.options){var c=a.options.parentWorkspace;a.isFlyout?c&&c.options&&(b=c.options.parentWorkspace):c&&(b=c)}return b};$.Blockly={VERSION:"7.20211209.2"};$.Blockly.ALIGN_LEFT=$.module$exports$Blockly$Input.Align.LEFT;$.Blockly.ALIGN_CENTRE=$.module$exports$Blockly$Input.Align.CENTRE;$.Blockly.ALIGN_RIGHT=$.module$exports$Blockly$Input.Align.RIGHT;$.Blockly.INPUT_VALUE=$.module$exports$Blockly$ConnectionType.ConnectionType.INPUT_VALUE;$.Blockly.OUTPUT_VALUE=$.module$exports$Blockly$ConnectionType.ConnectionType.OUTPUT_VALUE;$.Blockly.NEXT_STATEMENT=$.module$exports$Blockly$ConnectionType.ConnectionType.NEXT_STATEMENT;
+$.module$exports$Blockly$Mutator.Mutator.reconnect=function(a,b,c){if(!a||!a.getSourceBlock().workspace)return!1;c=b.getInput(c).connection;var d=a.targetBlock();return d&&d!==b||c.targetConnection===a?!1:(c.isConnected()&&c.disconnect(),c.connect(a),!0)};$.module$exports$Blockly$Mutator.Mutator.findParentWs=function(a){var b=null;if(a&&a.options){var c=a.options.parentWorkspace;a.isFlyout?c&&c.options&&(b=c.options.parentWorkspace):c&&(b=c)}return b};$.Blockly={VERSION:"7.20211209.5"};$.Blockly.ALIGN_LEFT=$.module$exports$Blockly$Input.Align.LEFT;$.Blockly.ALIGN_CENTRE=$.module$exports$Blockly$Input.Align.CENTRE;$.Blockly.ALIGN_RIGHT=$.module$exports$Blockly$Input.Align.RIGHT;$.Blockly.INPUT_VALUE=$.module$exports$Blockly$ConnectionType.ConnectionType.INPUT_VALUE;$.Blockly.OUTPUT_VALUE=$.module$exports$Blockly$ConnectionType.ConnectionType.OUTPUT_VALUE;$.Blockly.NEXT_STATEMENT=$.module$exports$Blockly$ConnectionType.ConnectionType.NEXT_STATEMENT;
 $.Blockly.PREVIOUS_STATEMENT=$.module$exports$Blockly$ConnectionType.ConnectionType.PREVIOUS_STATEMENT;$.Blockly.DUMMY_INPUT=$.module$exports$Blockly$inputTypes.inputTypes.DUMMY;$.Blockly.TOOLBOX_AT_TOP=module$exports$Blockly$utils$toolbox.Position.TOP;$.Blockly.TOOLBOX_AT_BOTTOM=module$exports$Blockly$utils$toolbox.Position.BOTTOM;$.Blockly.TOOLBOX_AT_LEFT=module$exports$Blockly$utils$toolbox.Position.LEFT;$.Blockly.TOOLBOX_AT_RIGHT=module$exports$Blockly$utils$toolbox.Position.RIGHT;
 $.Blockly.svgResize=$.module$exports$Blockly$common.svgResize;var module$contents$Blockly_hideChaff=function(a){(0,$.module$exports$Blockly$common.getMainWorkspace)().hideChaff(a)};$.Blockly.hideChaff=module$contents$Blockly_hideChaff;$.Blockly.getMainWorkspace=$.module$exports$Blockly$common.getMainWorkspace;$.Blockly.defineBlocksWithJsonArray=$.module$exports$Blockly$common.defineBlocksWithJsonArray;$.Blockly.setParentContainer=$.module$exports$Blockly$common.setParentContainer;
 Object.defineProperties($.Blockly,{alert:{set:function(a){(0,module$exports$Blockly$utils$deprecation.warn)("Blockly.alert","December 2021","December 2022");(0,module$exports$Blockly$dialog.setAlert)(a)},get:function(){(0,module$exports$Blockly$utils$deprecation.warn)("Blockly.alert","December 2021","December 2022","Blockly.dialog.alert()");return module$exports$Blockly$dialog.alert}},confirm:{set:function(a){(0,module$exports$Blockly$utils$deprecation.warn)("Blockly.confirm","December 2021","December 2022");
@@ -2176,7 +2177,7 @@ this.setTooltip($.module$exports$Blockly$Msg.Msg.PROCEDURES_MUTATORARG_TOOLTIP);
 this.getSourceBlock().id){var g=d[f].getFieldValue("NAME");if(g&&g.toLowerCase()===e)return null}if(b.isInFlyout)return a;(b=c.getVariable(a,""))&&b.name!==a&&c.renameVariableById(b.getId(),a);b||(b=c.createVariable(a,""))&&this.createdVariables_&&this.createdVariables_.push(b);return a},deleteIntermediateVars_:function(a){var b=$.module$exports$Blockly$Mutator.Mutator.findParentWs(this.getSourceBlock().workspace);if(b)for(var c=0;c<this.createdVariables_.length;c++){var d=this.createdVariables_[c];
 d.name!==a&&b.deleteVariableById(d.getId())}}};
 var module$contents$Blockly$blocks$procedures_PROCEDURE_CALL_COMMON={getProcedureCall:function(){return this.getFieldValue("NAME")},renameProcedure:function(a,b){$.module$exports$Blockly$Names.Names.equals(a,this.getProcedureCall())&&(this.setFieldValue(b,"NAME"),this.setTooltip((this.outputConnection?$.module$exports$Blockly$Msg.Msg.PROCEDURES_CALLRETURN_TOOLTIP:$.module$exports$Blockly$Msg.Msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",b)))},setProcedureParameters_:function(a,b){var c=(0,$.module$exports$Blockly$Procedures.getDefinition)(this.getProcedureCall(),
-this.workspace),d=c&&c.mutator&&c.mutator.isVisible();d||(this.quarkConnections_={},this.quarkIds_=null);if(b)if(a.join("\n")===this.arguments_.join("\n"))this.quarkIds_=b;else{if(b.length!==a.length)throw RangeError("paramNames and paramIds must be the same length.");this.setCollapsed(!1);this.quarkIds_||(this.quarkConnections_={},this.quarkIds_=[]);c=this.rendered;this.rendered=!1;for(var e=0;e<this.arguments_.length;e++){var f=this.getInput("ARG"+e);f&&(f=f.connection.targetConnection,this.quarkConnections_[this.quarkIds_[e]]=
+this.workspace),d=c&&c.mutator&&c.mutator.isVisible();d?this.setCollapsed(!1):(this.quarkConnections_={},this.quarkIds_=null);if(a.join("\n")===this.arguments_.join("\n"))this.quarkIds_=b;else{if(b.length!==a.length)throw RangeError("paramNames and paramIds must be the same length.");this.quarkIds_||(this.quarkConnections_={},this.quarkIds_=[]);c=this.rendered;this.rendered=!1;for(var e=0;e<this.arguments_.length;e++){var f=this.getInput("ARG"+e);f&&(f=f.connection.targetConnection,this.quarkConnections_[this.quarkIds_[e]]=
 f,d&&f&&-1===b.indexOf(this.quarkIds_[e])&&(f.disconnect(),f.getSourceBlock().bumpNeighbours()))}this.arguments_=[].concat(a);this.argumentVarModels_=[];for(a=0;a<this.arguments_.length;a++)d=(0,$.module$exports$Blockly$Variables.getOrCreateVariablePackage)(this.workspace,null,this.arguments_[a],""),this.argumentVarModels_.push(d);this.updateShape_();if(this.quarkIds_=b)for(b=0;b<this.arguments_.length;b++)a=this.quarkIds_[b],a in this.quarkConnections_&&($.module$exports$Blockly$Mutator.Mutator.reconnect(this.quarkConnections_[a],
 this,"ARG"+b)||delete this.quarkConnections_[a]);(this.rendered=c)&&this.render()}},updateShape_:function(){for(var a=0;a<this.arguments_.length;a++){var b=this.getField("ARGNAME"+a);if(b){(0,$.module$exports$Blockly$Events.disable)();try{b.setValue(this.arguments_[a])}finally{(0,$.module$exports$Blockly$Events.enable)()}}else b=new $.module$exports$Blockly$FieldLabel.FieldLabel(this.arguments_[a]),this.appendValueInput("ARG"+a).setAlign($.module$exports$Blockly$Input.Align.RIGHT).appendField(b,"ARGNAME"+
 a).init()}for(a=this.arguments_.length;this.getInput("ARG"+a);a++)this.removeInput("ARG"+a);if(a=this.getInput("TOPROW"))this.arguments_.length?this.getField("WITH")||(a.appendField($.module$exports$Blockly$Msg.Msg.PROCEDURES_CALL_BEFORE_PARAMS,"WITH"),a.init()):this.getField("WITH")&&a.removeField("WITH")},mutationToDom:function(){var a=(0,$.module$exports$Blockly$utils$xml.createElement)("mutation");a.setAttribute("name",this.getProcedureCall());for(var b=0;b<this.arguments_.length;b++){var c=(0,$.module$exports$Blockly$utils$xml.createElement)("arg");
@@ -3252,22 +3253,22 @@ var Luckytickets = /** @class */ (function () {
         outputTicketContainer.className = 'output-ticket-container';
         var outputTicketTitle = document.createElement('div');
         outputTicketTitle.className = 'output-ticket-title';
-        outputTicketTitle.innerText = 'Следующий\nсчастливый билет';
+        outputTicketTitle.innerText = 'Пользовательский\nответ';
         outputTicketContainer.appendChild(outputTicketTitle);
         var outputTicketImage = document.createElement('div');
         outputTicketImage.className = 'output-ticket-image';
-        outputTicketImage.innerHTML = '<input disabled class="output-number" id="output-field" placeholder="xyzuvw">';
+        outputTicketImage.innerHTML = '<input disabled class="output-number" id="output-field" placeholder="uvwxyz">';
         outputTicketContainer.appendChild(outputTicketImage);
         ticketsContainer.appendChild(outputTicketContainer);
         var rightOutputTicketContainer = document.createElement('div');
         rightOutputTicketContainer.className = 'rightOutput-ticket-container';
         var rightOutputTicketTitle = document.createElement('div');
         rightOutputTicketTitle.className = 'rightOutput-ticket-title';
-        rightOutputTicketTitle.innerText = 'Следующий\nсчастливый билет';
+        rightOutputTicketTitle.innerText = 'Правильный\nответ';
         rightOutputTicketContainer.appendChild(rightOutputTicketTitle);
         var rightOutputTicketImage = document.createElement('div');
         rightOutputTicketImage.className = 'rightOutput-ticket-image';
-        rightOutputTicketImage.innerHTML = '<input disabled class="rightOutput-number" id="rightOutput-field" placeholder="xyzuvw">';
+        rightOutputTicketImage.innerHTML = '<input disabled class="rightOutput-number" id="rightOutput-field" placeholder="uvwxyz">';
         rightOutputTicketContainer.appendChild(rightOutputTicketImage);
         ticketsContainer.appendChild(rightOutputTicketContainer);
         // const codeEditor = document.createElement('div');
@@ -3306,6 +3307,12 @@ var Luckytickets = /** @class */ (function () {
         workspace.createVariable('e');
         workspace.createVariable('f');
         workspace.createVariable('result');
+        workspace.createVariable('u');
+        workspace.createVariable('v');
+        workspace.createVariable('w');
+        workspace.createVariable('x');
+        workspace.createVariable('y');
+        workspace.createVariable('z');
         // const button = document.getElementById('blocklyButton');
         // button.addEventListener('click', function () {
         //     alert("Check the console for the generated output.");
@@ -3317,26 +3324,76 @@ var Luckytickets = /** @class */ (function () {
         this.domNode.appendChild(buttonsContainer);
         var stepPlusButton = document.createElement('button');
         stepPlusButton.className = 'step-plus-button';
-        stepPlusButton.innerText = 'СЛЕДУЮЩАЯ ОШИБКА';
+        stepPlusButton.innerText = 'СПРАВКА';
         buttonsContainer.appendChild(stepPlusButton);
         stepPlusButton.addEventListener('click', function (event) {
-            exportBlocks();
+            window.alert("Данный веб-сайт предназначен для решения участниками\
+олимпиады задачи о написании алгоритма поиска следующего счастливого билета.\n\
+Для написания алгоритма участникам предлагается набор функций, которые необходимо \
+расположить в рабочей области (справа). Номер билета задается через переменные \
+a, b, c, d, e, f посимвольно, так что пользователю нужно работать именно с ними. \
+Итоговый результат работы алгоритма (номер следующего счастливого билета) можно сохранять \
+как посимвольно (в переменные u, v, w, x, y, z), так и как целое число в переменную result.\n\n\
+МГНОВЕННЫЙ РЕЗУЛЬТАТ: после ввода в графу 'Текущий номер билета' выводит результат работы \
+пользовательского алгоритма и правильный номер следующего счастливого билета.\n\nПОКАЗАТЬ КОД: \
+показывает текущий алгоритм пользователя, преобразованный в код на JavaScript, для лучшего \
+понимания участниками олимпиады, изучающими программирование, условие задания. Код в любое \
+время можно скопировать из консоли разработчика (Google Chrome: F12, console).\n\nНажмите ОК, \
+чтобы продолжить");
+            window.alert("ЗАПУСК: запускает алгоритм проверки результатов работы пользовательского \
+алгоритма. Результат проверяется на 10000 случайных номерах. В случае некорректности \
+алгоритма, уведомляет пользователя и останавливается на номере, где алгоритм сработал неверно. \
+В случае успешного прохождения проверки, уведомляет пользователя и сообщает об эффективности \
+алгоритма, рассчитаного по формуле: ((3000*7)/(длина алгоритма пользователя, преобразованная в \
+JS, в символах* количество условий 'если' в преобразованном коде))*100. Числа подобраны таким \
+образом, поскольку алгоритм авторов имеет примерно 3000 символов и 7 условий if, таким образом, \
+получает оценку эффективности 100. Однако предел эффективности еще предстоит исследовать участникам олимпиады.\n\n\
+Кнопки в нижней части страницы работают только при подключении к серверу, однако версия сайта тестовая и еще не \
+опубликована.");
         });
         var instantResultButton = document.createElement('button');
         instantResultButton.innerText = 'МГНОВЕННЫЙ РЕЗУЛЬТАТ';
         instantResultButton.className = 'instant-result-button';
         buttonsContainer.appendChild(instantResultButton);
         instantResultButton.addEventListener('click', function (event) {
-            var _a;
-            if ((_a = _this.storedInput) === null || _a === void 0 ? void 0 : _a.length) {
-                var outputField = document.getElementById('output-field');
-                if (outputField) {
-                    outputField.value = _this.storedInput;
+            var UserResult, ticket;
+            var set_function = 'function UserTicket(ticket) {\n';
+            var setting_variables = 'var a, b, c, d, e, f, result;';
+            var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;';
+            var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;';
+            var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;';
+            var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;';
+            var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;';
+            var setting_f = 'f = (ticket % 10 - ticket % 1);';
+            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
+            code += _node_modules_blockly_core__WEBPACK_IMPORTED_MODULE_1__.JavaScript.workspaceToCode(workspace);
+            code += '\nreturn result;\n}\n\n';
+            code += 'UserResult = UserTicket(ticket);';
+            var input = document.querySelector('input');
+            ticket = input.value;
+            var outputField = document.getElementById('output-field');
+            var rightOutputField = document.getElementById('rightOutput-field');
+            try {
+                eval(code);
+                if (UserResult == nextTicket(input.value)) {
+                    outputField.style.color = "green";
+                }
+                else {
+                    outputField.style.color = "#ff9999";
                 }
             }
+            catch (e) {
+                alert(e);
+            }
+            if (UserResult) {
+                outputField.value = ('000000' + UserResult).slice(-6);
+            }
+            rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+            if (!input.value)
+                input.value = '000000';
         });
         var stepMinusButton = document.createElement('button');
-        stepMinusButton.innerText = 'ПРЕДЫДУЩАЯ ОШИБКА';
+        stepMinusButton.innerText = 'КОД АЛГОРИТМА';
         stepMinusButton.className = 'step-minus-button';
         buttonsContainer.appendChild(stepMinusButton);
         stepMinusButton.addEventListener('click', function (event) {
@@ -3388,64 +3445,97 @@ var Luckytickets = /** @class */ (function () {
             }
         }
         stepMinusButton.addEventListener('click', function (event) {
-            importBlocksFile("project.txt");
-        });
-        demoButton.addEventListener('click', function (event) {
-            var UserResult, ticket, CountRight = 0;
             var set_function = 'function UserTicket(ticket) {\n';
-            var setting_variables = 'var a, b, c, d, e, f, result;';
+            var setting_variables = 'var a, b, c, d, e, f, result, x = 0, y = 0, z = 0, u = 0, v = 0, w = 0;';
             var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;';
             var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;';
             var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;';
             var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;';
             var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;';
             var setting_f = 'f = (ticket % 10 - ticket % 1);';
-            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f;
-            //var code = set_function;
+            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
             code += _node_modules_blockly_core__WEBPACK_IMPORTED_MODULE_1__.JavaScript.workspaceToCode(workspace);
-            code += '\n return result;\n}\n\n';
+            code += 'if(!result) {\nresult = String(u) + String(v) + String(w) + String(x) + String(y) + String(z)\n}';
+            code += '\nreturn result;\n}\n\n';
             code += 'UserResult = UserTicket(ticket);';
             console.log(code);
-            var input = document.querySelector('input');
-            console.log(input.value);
-            console.log(nextTicket(input.value));
-            ticket = input.value;
-            var outputField = document.getElementById('output-field');
-            var rightOutputField = document.getElementById('rightOutput-field');
-            try {
-                eval(code);
-                console.log(UserResult);
-                if (UserResult == nextTicket(input.value)) {
-                    console.log("right");
-                    outputField.style.color = "green";
-                }
-                else {
-                    console.log("wrong");
-                    outputField.style.color = "#ff9999";
-                }
+            alert(code);
+        });
+        demoButton.addEventListener('click', function (event) {
+            if (!_node_modules_blockly_core__WEBPACK_IMPORTED_MODULE_1__.JavaScript.workspaceToCode(workspace)) {
+                window.alert("Алгоритм не написан!");
             }
-            catch (e) {
-                alert(e);
-            }
-            if (UserResult) {
-                outputField.value = ('000000' + UserResult).slice(-6);
-            }
-            rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
-            if (!input.value)
-                input.value = '000000';
-            for (var i = 0; i < 1; i++) {
-                ticket = i;
+            else {
+                var UserResult, ticket, CountRight = 0;
+                var set_function = 'function UserTicket(ticket) {\n';
+                var setting_variables = 'var a, b, c, d, e, f, result, x = 0, y = 0, z = 0, u = 0, v = 0, w = 0;';
+                var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;';
+                var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;';
+                var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;';
+                var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;';
+                var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;';
+                var setting_f = 'f = (ticket % 10 - ticket % 1);';
+                var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
+                code += _node_modules_blockly_core__WEBPACK_IMPORTED_MODULE_1__.JavaScript.workspaceToCode(workspace);
+                code += 'if(!result) {\nresult = String(u) + String(v) + String(w) + String(x) + String(y) + String(z)\n}';
+                code += '\nreturn result;\n}\n\n';
+                code += 'UserResult = UserTicket(ticket);';
+                var input = document.querySelector('input');
+                ticket = input.value;
+                var outputField = document.getElementById('output-field');
+                var rightOutputField = document.getElementById('rightOutput-field');
                 try {
                     eval(code);
+                    if (UserResult == nextTicket(input.value)) {
+                        outputField.style.color = "green";
+                    }
+                    else {
+                        outputField.style.color = "#ff9999";
+                    }
                 }
                 catch (e) {
                     alert(e);
                 }
-                if (UserResult == nextTicket(ticket)) {
-                    CountRight++;
+                if (UserResult) {
+                    outputField.value = ('000000' + UserResult).slice(-6);
+                }
+                rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+                if (!input.value)
+                    input.value = '000000';
+                var IfCount = (code.split("if").length - 1) - 1;
+                if (IfCount == 0) {
+                    var Efficiency_1 = (2100000 / (code.length - 503)) / 1;
+                }
+                var Efficiency = (2100000 / (code.length - 503)) / IfCount;
+                for (var i = 0; i < 10001; i++) {
+                    ticket = Math.floor(Math.random() * 999998);
+                    input.value = ('000000' + ticket).slice(-6);
+                    try {
+                        eval(code);
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                    if (UserResult != nextTicket(ticket)) {
+                        outputField.style.color = "#ff9999";
+                        if (!UserResult) {
+                            UserResult = 0;
+                        }
+                        outputField.value = ('000000' + UserResult).slice(-6);
+                        rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+                        window.alert("Алгоритм работает неверно!");
+                        _this.history_updated(IfCount, (code.length - 503), '0');
+                        break;
+                    }
+                    else {
+                        CountRight++;
+                    }
+                }
+                if (CountRight == 10001) {
+                    window.alert("Алгоритм работает верно! Эффективность алгоритма =" + Efficiency);
+                    _this.history_updated(IfCount, (code.length - 503), Efficiency);
                 }
             }
-            console.log(CountRight);
             // document.getElementById('textarea').value = code;
             // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
             // for (var i=0; i<myblocks.length; i++){
@@ -3794,20 +3884,37 @@ var Luckytickets = /** @class */ (function () {
     Luckytickets.prototype.parameters = function () {
         return [
             {
-                name: "steps",
-                title: "Количество шагов",
+                name: "Ifs",
+                title: "Количество 'если': ",
                 ordering: 'maximize',
-                view: "ш"
+                view: function (val) {
+                    return '' + val;
+                },
             },
             {
-                name: "max",
-                title: "Максимальное число",
+                name: "CodeLength",
+                title: "Длина кода: ",
                 ordering: 'minimize',
                 view: function (val) {
-                    return '[' + val + ']';
+                    return '' + val;
+                }
+            },
+            {
+                name: "Efficiency",
+                title: "Эффективность: ",
+                ordering: 'minimize',
+                view: function (val) {
+                    return '' + val;
                 }
             }
         ];
+    };
+    Luckytickets.prototype.history_updated = function (IfCount, CodeLength, Efficiency) {
+        this.kioapi.submitResult({
+            "Ifs": IfCount,
+            "CodeLength": CodeLength,
+            "Efficiency": Efficiency,
+        });
     };
     /*static preloadManifest(): KioResourceDescription[] {
         return [
