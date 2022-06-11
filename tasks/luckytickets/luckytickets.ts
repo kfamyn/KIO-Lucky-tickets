@@ -515,7 +515,7 @@ JS, в символах* количество условий 'если' в пр�
                     }
                 let Efficiency = (2100000 / (code.length-503)) / IfCount
                 for (var i = 0; i < 10001; i++) {
-                    ticket = Math.floor(Math.random() * 1001);
+                    ticket = Math.floor(Math.random() * 999998);
                     input.value = ('000000' + ticket).slice(-6);
                     try {
                         eval(code);
