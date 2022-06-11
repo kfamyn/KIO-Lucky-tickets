@@ -237,7 +237,7 @@ export class Luckytickets implements KioTask {
 
         const outputTicketTitle = document.createElement('div');
         outputTicketTitle.className = 'output-ticket-title';
-        outputTicketTitle.innerText = 'Следующий\nсчастливый билет';
+        outputTicketTitle.innerText = 'Пользовательский\nответ';
         outputTicketContainer.appendChild(outputTicketTitle);
 
         const outputTicketImage = document.createElement('div');
@@ -253,7 +253,7 @@ export class Luckytickets implements KioTask {
 
         const rightOutputTicketTitle = document.createElement('div');
         rightOutputTicketTitle.className = 'rightOutput-ticket-title';
-        rightOutputTicketTitle.innerText = 'Следующий\nсчастливый билет';
+        rightOutputTicketTitle.innerText = 'Правильный\nответ';
         rightOutputTicketContainer.appendChild(rightOutputTicketTitle);
 
         const rightOutputTicketImage = document.createElement('div');
@@ -262,7 +262,7 @@ export class Luckytickets implements KioTask {
         rightOutputTicketContainer.appendChild(rightOutputTicketImage);
 
         ticketsContainer.appendChild(rightOutputTicketContainer);
-        
+
         // const codeEditor = document.createElement('div');
         // codeEditor.className = 'code-editor';
         // codeEditor.innerHTML = '<div class="code-editor-header" id="code-editor-header-id"></div><div class="code-lines" id="ruler"></div><textarea id="text-from-editor"></textarea>';
@@ -320,10 +320,10 @@ export class Luckytickets implements KioTask {
 
         const stepPlusButton = document.createElement('button');
         stepPlusButton.className = 'step-plus-button';
-        stepPlusButton.innerText = 'СЛЕДУЮЩАЯ ОШИБКА';
+        stepPlusButton.innerText = 'СПРАВКА';
         buttonsContainer.appendChild(stepPlusButton);
         stepPlusButton.addEventListener('click', (event) => {
-            exportBlocks();
+            window.alert("Данный веб-сайт предназначен для решения участниками олимпиады задачи о написании алгоритма поиска следующего счастливого билета.\nДля написания алгоритма участникам предлагается набор функций, которые необходимо расположить в рабочей области (справа).");
         });
 
         const instantResultButton = document.createElement('button');
@@ -331,76 +331,7 @@ export class Luckytickets implements KioTask {
         instantResultButton.className = 'instant-result-button';
         buttonsContainer.appendChild(instantResultButton);
         instantResultButton.addEventListener('click', (event) => {
-            if (this.storedInput?.length) {
-                const outputField = <HTMLInputElement>document.getElementById('output-field');
-                if (outputField) {
-                    outputField.value = this.storedInput;
-                }
-            }
-        });
-
-        const stepMinusButton = document.createElement('button');
-        stepMinusButton.innerText = 'ПРЕДЫДУЩАЯ ОШИБКА';
-        stepMinusButton.className = 'step-minus-button';
-        buttonsContainer.appendChild(stepMinusButton);
-        stepMinusButton.addEventListener('click', (event) => {
-        });
-
-
-        const demoButton = document.createElement('button');
-        demoButton.innerText = 'ЗАПУСК';
-        demoButton.className = 'demo-button';
-        buttonsContainer.appendChild(demoButton);
-
-        function exportBlocks() {
-            try {
-              var xml = Blockly.Xml.workspaceToDom(workspace);
-              var xml_text = Blockly.Xml.domToText(xml);
-                
-              var link = document.createElement('a');
-              link.download="project.txt";
-              link.href="data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
-              document.body.appendChild(link);
-              link.click();
-              link.remove();
-            } catch (e) {
-              window.location.href="data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
-              alert(e);
-            }
-          }
-              
-          function importBlocks() {
-            try {
-              var xml_text = prompt("Please enter XML code", "");
-              var xml = Blockly.Xml.textToDom(xml_text);
-              workspace.clear();
-              Blockly.Xml.domToWorkspace(xml, workspace);
-            } catch (e) {
-              alert(e);
-            }
-          }
-
-          function importBlocksFile(element) {
-            try {	
-              var file = element.files[0];
-              var fr = new FileReader();           
-              fr.onload = function (event) {
-                var xml = Blockly.Xml.textToDom(<string>event.target.result);
-                workspace.clear();
-                Blockly.Xml.domToWorkspace(xml, workspace);
-              };
-              fr.readAsText(file);
-            } catch (e) {
-              alert(e);
-            }	  
-          }
-
-          stepMinusButton.addEventListener('click', (event) => {
-            importBlocksFile("project.txt");
-          })
-
-        demoButton.addEventListener('click', (event) => {
-            var UserResult, ticket, CountRight = 0;
+            var UserResult, ticket;
             var set_function = 'function UserTicket(ticket) {\n'
             var setting_variables = 'var a, b, c, d, e, f, result;'
             var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;'
@@ -409,10 +340,9 @@ export class Luckytickets implements KioTask {
             var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;'
             var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;'
             var setting_f = 'f = (ticket % 10 - ticket % 1);'
-            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' +setting_c + '\n' +setting_d + '\n' +setting_e + '\n' + setting_f;
-            //var code = set_function;
+            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
             code += (Blockly as any).JavaScript.workspaceToCode(workspace);
-            code += '\n return result;\n}\n\n';
+            code += '\nreturn result;\n}\n\n';
             code += 'UserResult = UserTicket(ticket);'
             console.log(code);
             let input = document.querySelector('input');
@@ -424,417 +354,551 @@ export class Luckytickets implements KioTask {
             try {
                 eval(code);
                 console.log(UserResult);
-                if (UserResult == nextTicket(input.value))
-                {
+                if (UserResult == nextTicket(input.value)) {
                     console.log("right");
                     outputField.style.color = "green"
                 }
-                else
-                {
+                else {
                     console.log("wrong");
                     outputField.style.color = "#ff9999"
                 }
             } catch (e) {
                 alert(e);
             }
-            if (UserResult)
-            {
+            if (UserResult) {
                 outputField.value = ('000000' + UserResult).slice(-6);
             }
             rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
             if (!input.value)
-            input.value = '000000'
-            for (var i = 0; i < 1; i++)
-            {
-                ticket = i;
-                try {
-                    eval(code);
-                } catch (e) {
-                    alert(e);
-                }
-                if (UserResult == nextTicket(ticket))
-                {
-                    CountRight++;
-                }
-            }
-            console.log(CountRight);
-            // document.getElementById('textarea').value = code;
-            // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
-            // for (var i=0; i<myblocks.length; i++){
-            //     console.log(myblocks[i].getFieldValue('fieldName'));
-            // }
-            // if (editorElement?.value) {
-            //     const rawDataArray = this.splitLines(editorElement.value);
-            //     console.log('RAW DATA', rawDataArray);
-            //     const jsFunctionString = this.constructJSFunction(rawDataArray);
-            //     console.log('PROCESSED DATA', jsFunctionString);
-            //     this.callJSFunction(jsFunctionString);
-            // }
+                input.value = '000000'
         });
 
-        const animationButton = document.createElement('button');
-        animationButton.innerText = 'АНИМАЦИЯ ПЕРЕБОРА';
-        animationButton.className = 'animation-button';
-        buttonsContainer.appendChild(animationButton);
-        animationButton.addEventListener('click', (event) => {
-        });
-        function nextTicket(ticket: any) {
-            function positive(ticket: any) {
-                let a = (ticket % 1000000 - ticket % 100000) / 100000;
-                let b = (ticket % 100000 - ticket % 10000) / 10000;
-                let c = (ticket % 10000 - ticket % 1000) / 1000;
-                let d = (ticket % 1000 - ticket % 100) / 100;
-                let e = (ticket % 100 - ticket % 10) / 10;
-                let f = (ticket % 10 - ticket % 1);
-                let s1 = a + b + c;
-                let s2 = d + e + f;
-                let diff = s1 - s2;
-                if (9 - f >= diff) {
-                    f += diff;
-                }
-                else if (18 - f - e >= diff) {
-                    e += diff - 9 + f;
-                    f = 9;
-                }
-                else {
-                    d += diff - 18 + e + f;
-                    e = 9;
-                    f = 9;
-                }
-                let key = String(a) + String(b) + String(c) + String(d) + String(e) + String(f);
-                return (key);
-            }
+    const stepMinusButton = document.createElement('button');
+        stepMinusButton.innerText = 'КОД АЛГОРИТМА';
+        stepMinusButton.className = 'step-minus-button';
+        buttonsContainer.appendChild(stepMinusButton);
+        stepMinusButton.addEventListener('click', (event) => {
+});
 
-            function negative(ticket: any) {
-                let a = (ticket % 1000000 - ticket % 100000) / 100000;
-                let b = (ticket % 100000 - ticket % 10000) / 10000;
-                let c = (ticket % 10000 - ticket % 1000) / 1000;
-                let d = (ticket % 1000 - ticket % 100) / 100;
-                let e = (ticket % 100 - ticket % 10) / 10;
-                let f = (ticket % 10 - ticket % 1);
-                let s1 = a + b + c;
-                let s2 = d + e + f;
-                let diff = s2 - s1;
-                let key;
-                if ((diff <= f - 1) && (e != 9)) {
-                    f = f - diff - 1;
-                    e += 1;
-                }
-                else if ((diff <= f + e - 1) && (d != 9)) {
-                    d += 1;
-                    diff = (diff - f - e + 1) * -1;
-                    if (diff > 9) {
-                        f = 9;
-                        e = diff - f;
-                    }
-                    else {
-                        f = diff;
-                        e = 0;
-                    }
-                }
-                else {
-                    ticket += 1000 - 100 * d - 10 * e - f;
-                    key = positive(ticket);
-                }
-                if (!key) {
-                    key = String(a) + String(b) + String(c) + String(d) + String(e) + String(f);
-                }
-                return (key);
-            }
-            ticket = Number(ticket) + 1;
-            let a = (ticket % 1000000 - ticket % 100000) / 100000;
-            let b = (ticket % 100000 - ticket % 10000) / 10000;
-            let c = (ticket % 10000 - ticket % 1000) / 1000;
-            let d = (ticket % 1000 - ticket % 100) / 100;
-            let e = (ticket % 100 - ticket % 10) / 10;
-            let f = (ticket % 10 - ticket % 1);
-            let s1 = a + b + c;
-            let s2 = d + e + f;
-            let diff = s1 - s2;
-            let key;
-            if (diff < 0) {
-                key = negative(ticket);
+
+const demoButton = document.createElement('button');
+demoButton.innerText = 'ЗАПУСК';
+demoButton.className = 'demo-button';
+buttonsContainer.appendChild(demoButton);
+
+function exportBlocks() {
+    try {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var xml_text = Blockly.Xml.domToText(xml);
+
+        var link = document.createElement('a');
+        link.download = "project.txt";
+        link.href = "data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    } catch (e) {
+        window.location.href = "data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
+        alert(e);
+    }
+}
+
+function importBlocks() {
+    try {
+        var xml_text = prompt("Please enter XML code", "");
+        var xml = Blockly.Xml.textToDom(xml_text);
+        workspace.clear();
+        Blockly.Xml.domToWorkspace(xml, workspace);
+    } catch (e) {
+        alert(e);
+    }
+}
+
+function importBlocksFile(element) {
+    try {
+        var file = element.files[0];
+        var fr = new FileReader();
+        fr.onload = function (event) {
+            var xml = Blockly.Xml.textToDom(<string>event.target.result);
+            workspace.clear();
+            Blockly.Xml.domToWorkspace(xml, workspace);
+        };
+        fr.readAsText(file);
+    } catch (e) {
+        alert(e);
+    }
+}
+
+stepMinusButton.addEventListener('click', (event) => {
+    var set_function = 'function UserTicket(ticket) {\n'
+    var setting_variables = 'var a, b, c, d, e, f, result;'
+    var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;'
+    var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;'
+    var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;'
+    var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;'
+    var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;'
+    var setting_f = 'f = (ticket % 10 - ticket % 1);'
+    var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
+    code += (Blockly as any).JavaScript.workspaceToCode(workspace);
+    code += '\nreturn result;\n}\n\n';
+    code += 'UserResult = UserTicket(ticket);'
+    alert(code);
+})
+
+demoButton.addEventListener('click', (event) => {
+    if (!(Blockly as any).JavaScript.workspaceToCode(workspace)) {
+        window.alert("Алгоритм не написан!");
+    }
+    else {
+        var UserResult, ticket, CountRight = 0;
+        var set_function = 'function UserTicket(ticket) {\n'
+        var setting_variables = 'var a, b, c, d, e, f, result;'
+        var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;'
+        var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;'
+        var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;'
+        var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;'
+        var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;'
+        var setting_f = 'f = (ticket % 10 - ticket % 1);'
+        var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
+        code += (Blockly as any).JavaScript.workspaceToCode(workspace);
+        code += '\nreturn result;\n}\n\n';
+        code += 'UserResult = UserTicket(ticket);'
+        console.log(code);
+        let input = document.querySelector('input');
+        console.log(input.value);
+        console.log(nextTicket(input.value))
+        ticket = input.value;
+        const outputField = <HTMLInputElement>document.getElementById('output-field');
+        const rightOutputField = <HTMLInputElement>document.getElementById('rightOutput-field');
+        try {
+            eval(code);
+            console.log(UserResult);
+            if (UserResult == nextTicket(input.value)) {
+                console.log("right");
+                outputField.style.color = "green"
             }
             else {
-                key = positive(ticket);
+                console.log("wrong");
+                outputField.style.color = "#ff9999"
             }
-            return (key);
+        } catch (e) {
+            alert(e);
         }
+        if (UserResult) {
+            outputField.value = ('000000' + UserResult).slice(-6);
+        }
+        rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+        if (!input.value)
+            input.value = '000000'
+        for (var i = 0; i < 10001; i++) {
+            ticket = Math.floor(Math.random() * 999998);
+            input.value = ('000000' + ticket).slice(-6);
+            try {
+                eval(code);
+            } catch (e) {
+                alert(e);
+            }
+            if (UserResult != nextTicket(ticket)) {
+                outputField.style.color = "#ff9999"
+                if (!UserResult) {
+                    UserResult = 0;
+                }
+                outputField.value = ('000000' + UserResult).slice(-6);
+                rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+                window.alert("Алгоритм работает неверно!");
+                break;
+            }
+            else {
+                CountRight++
+            }
+        }
+        if (CountRight == 10001) {
+            let IfCount = (code.split("if").length - 1);
+            if (IfCount == 0) {
+                IfCount = 1;
+            }
+            let Efficiency = (210000 / code.length) / IfCount
+            window.alert("Алгоритм работает верно! Эффективность алгоритма =" + Efficiency);
+        }
+    }
+    // document.getElementById('textarea').value = code;
+    // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
+    // for (var i=0; i<myblocks.length; i++){
+    //     console.log(myblocks[i].getFieldValue('fieldName'));
+    // }
+    // if (editorElement?.value) {
+    //     const rawDataArray = this.splitLines(editorElement.value);
+    //     console.log('RAW DATA', rawDataArray);
+    //     const jsFunctionString = this.constructJSFunction(rawDataArray);
+    //     console.log('PROCESSED DATA', jsFunctionString);
+    //     this.callJSFunction(jsFunctionString);
+    // }
+});
+
+const animationButton = document.createElement('button');
+animationButton.innerText = 'АНИМАЦИЯ ПЕРЕБОРА';
+animationButton.className = 'animation-button';
+buttonsContainer.appendChild(animationButton);
+animationButton.addEventListener('click', (event) => {
+});
+function nextTicket(ticket: any) {
+    function positive(ticket: any) {
+        let a = (ticket % 1000000 - ticket % 100000) / 100000;
+        let b = (ticket % 100000 - ticket % 10000) / 10000;
+        let c = (ticket % 10000 - ticket % 1000) / 1000;
+        let d = (ticket % 1000 - ticket % 100) / 100;
+        let e = (ticket % 100 - ticket % 10) / 10;
+        let f = (ticket % 10 - ticket % 1);
+        let s1 = a + b + c;
+        let s2 = d + e + f;
+        let diff = s1 - s2;
+        if (9 - f >= diff) {
+            f += diff;
+        }
+        else if (18 - f - e >= diff) {
+            e += diff - 9 + f;
+            f = 9;
+        }
+        else {
+            d += diff - 18 + e + f;
+            e = 9;
+            f = 9;
+        }
+        let key = String(a) + String(b) + String(c) + String(d) + String(e) + String(f);
+        return (key);
+    }
+
+    function negative(ticket: any) {
+        let a = (ticket % 1000000 - ticket % 100000) / 100000;
+        let b = (ticket % 100000 - ticket % 10000) / 10000;
+        let c = (ticket % 10000 - ticket % 1000) / 1000;
+        let d = (ticket % 1000 - ticket % 100) / 100;
+        let e = (ticket % 100 - ticket % 10) / 10;
+        let f = (ticket % 10 - ticket % 1);
+        let s1 = a + b + c;
+        let s2 = d + e + f;
+        let diff = s2 - s1;
+        let key;
+        if ((diff <= f - 1) && (e != 9)) {
+            f = f - diff - 1;
+            e += 1;
+        }
+        else if ((diff <= f + e - 1) && (d != 9)) {
+            d += 1;
+            diff = (diff - f - e + 1) * -1;
+            if (diff > 9) {
+                f = 9;
+                e = diff - f;
+            }
+            else {
+                f = diff;
+                e = 0;
+            }
+        }
+        else {
+            ticket += 1000 - 100 * d - 10 * e - f;
+            key = positive(ticket);
+        }
+        if (!key) {
+            key = String(a) + String(b) + String(c) + String(d) + String(e) + String(f);
+        }
+        return (key);
+    }
+    ticket = Number(ticket) + 1;
+    let a = (ticket % 1000000 - ticket % 100000) / 100000;
+    let b = (ticket % 100000 - ticket % 10000) / 10000;
+    let c = (ticket % 10000 - ticket % 1000) / 1000;
+    let d = (ticket % 1000 - ticket % 100) / 100;
+    let e = (ticket % 100 - ticket % 10) / 10;
+    let f = (ticket % 10 - ticket % 1);
+    let s1 = a + b + c;
+    let s2 = d + e + f;
+    let diff = s1 - s2;
+    let key;
+    if (diff < 0) {
+        key = negative(ticket);
+    }
+    else {
+
+        key = positive(ticket);
+    }
+    return (key);
+}
     }
 
     private validInput(ticketNumber: InputEvent): boolean {
-        // Has to be number
-        // Has to be within the range
-        // Has to be different numbers depending on number system
-        const inputValue = (<HTMLInputElement>ticketNumber.target).value;
-        return inputValue && Number.isInteger(+inputValue) && /^\d+$/.test(inputValue) || !inputValue;
-    }
+    // Has to be number
+    // Has to be within the range
+    // Has to be different numbers depending on number system
+    const inputValue = (<HTMLInputElement>ticketNumber.target).value;
+    return inputValue && Number.isInteger(+inputValue) && /^\d+$/.test(inputValue) || !inputValue;
+}
 
     private updateRuler(value: string): void {
-        const ruler = document.getElementById('ruler');
-        const lines = value.split(/\r*\n/);
-        this.linesCount = lines.length;
+    const ruler = document.getElementById('ruler');
+    const lines = value.split(/\r*\n/);
+    this.linesCount = lines.length;
 
-        if (this.linesArray[this.linesArray.length - 1] === this.linesCount) {
-            return;
-        } else if (this.linesCount < this.linesArray[this.linesArray.length - 1]) {
-            ruler.removeChild(ruler.lastChild);
-            this.linesArray.pop();
-            return;
-        }
-        this.linesArray.push(this.linesCount);
-        const elem = document.createElement("div");
-        elem.setAttribute('id', this.linesCount.toString());
-        elem.className = 'line-number';
-        elem.innerText = this.linesCount.toString();
-        ruler.appendChild(elem);
+    if(this.linesArray[this.linesArray.length - 1] === this.linesCount) {
+    return;
+} else if (this.linesCount < this.linesArray[this.linesArray.length - 1]) {
+    ruler.removeChild(ruler.lastChild);
+    this.linesArray.pop();
+    return;
+}
+this.linesArray.push(this.linesCount);
+const elem = document.createElement("div");
+elem.setAttribute('id', this.linesCount.toString());
+elem.className = 'line-number';
+elem.innerText = this.linesCount.toString();
+ruler.appendChild(elem);
     }
 
     private splitLines(editorValue: string): string[] {
-        return editorValue.split(/\r*\n/);
-    }
+    return editorValue.split(/\r*\n/);
+}
 
     private constructJSFunction(rawDataArray: string[]): string {
-        return this.processRawData(rawDataArray).join('');
-    }
+    return this.processRawData(rawDataArray).join('');
+}
 
     private processRawData(rawDataArray: string[]): string[] {
-        const processedData: string[] = [];
-        rawDataArray.forEach((rawLine) => {
-            const conditionExpression: ConditionExpression = this.buildCondition(rawLine);
-            const compareExpression: CompareExpression = this.buildCompare(conditionExpression);
+    const processedData: string[] = [];
+    rawDataArray.forEach((rawLine) => {
+        const conditionExpression: ConditionExpression = this.buildCondition(rawLine);
+        const compareExpression: CompareExpression = this.buildCompare(conditionExpression);
 
-            let decomposedLeft: any;
-            if (this.codeContainsOperator(compareExpression.left)) {
-                this.initTree();
-                this.keepDecomposing(compareExpression.left);
-                decomposedLeft = Object.assign({}, this.complexExpressionTree);
-            } else {
-                decomposedLeft = compareExpression.left;
-            }
+        let decomposedLeft: any;
+        if (this.codeContainsOperator(compareExpression.left)) {
+            this.initTree();
+            this.keepDecomposing(compareExpression.left);
+            decomposedLeft = Object.assign({}, this.complexExpressionTree);
+        } else {
+            decomposedLeft = compareExpression.left;
+        }
 
-            let decomposedRight: any;
-            if (this.codeContainsOperator(compareExpression.right)) {
-                this.initTree();
-                this.keepDecomposing(compareExpression.right);
-                decomposedRight = this.complexExpressionTree;
-            } else {
-                decomposedRight = Object.assign({}, compareExpression.right);
-            }
+        let decomposedRight: any;
+        if (this.codeContainsOperator(compareExpression.right)) {
+            this.initTree();
+            this.keepDecomposing(compareExpression.right);
+            decomposedRight = this.complexExpressionTree;
+        } else {
+            decomposedRight = Object.assign({}, compareExpression.right);
+        }
 
-            const jsLine = this.constructJSLine(conditionExpression, compareExpression, decomposedLeft, decomposedRight);
-            processedData.push(jsLine);
-        });
-        return processedData;
-    }
+        const jsLine = this.constructJSLine(conditionExpression, compareExpression, decomposedLeft, decomposedRight);
+        processedData.push(jsLine);
+    });
+    return processedData;
+}
 
     private initTree() {
-        this.complexExpressionTree.operation = '';
-        this.complexExpressionTree.operands = [];
-    }
+    this.complexExpressionTree.operation = '';
+    this.complexExpressionTree.operands = [];
+}
 
-    private keepDecomposing(rawExpression: string, currentIndex?: number, parentIndex?: number) {
-        const lineWithoutSpaces = rawExpression.split(' ').join('');
-        if (lineWithoutSpaces.includes(OperatorsList.PLUS)) {
-            this.buildTree(lineWithoutSpaces, MathOperations.sum, parentIndex, currentIndex);
-        } else if (lineWithoutSpaces.includes(OperatorsList.MINUS)) {
-            this.buildTree(lineWithoutSpaces, MathOperations.subtr, parentIndex, currentIndex);
-        } else if (lineWithoutSpaces.includes(OperatorsList.MULT)) {
-            this.buildTree(lineWithoutSpaces, MathOperations.mult, parentIndex, currentIndex);
-        } else if (lineWithoutSpaces.includes(OperatorsList.DIVISION)) {
-            this.buildTree(lineWithoutSpaces, MathOperations.division, parentIndex, currentIndex);
-        } else if (lineWithoutSpaces.includes(OperatorsList.POW)) {
-            this.buildTree(lineWithoutSpaces, MathOperations.power, parentIndex, currentIndex);
-        }
+    private keepDecomposing(rawExpression: string, currentIndex ?: number, parentIndex ?: number) {
+    const lineWithoutSpaces = rawExpression.split(' ').join('');
+    if (lineWithoutSpaces.includes(OperatorsList.PLUS)) {
+        this.buildTree(lineWithoutSpaces, MathOperations.sum, parentIndex, currentIndex);
+    } else if (lineWithoutSpaces.includes(OperatorsList.MINUS)) {
+        this.buildTree(lineWithoutSpaces, MathOperations.subtr, parentIndex, currentIndex);
+    } else if (lineWithoutSpaces.includes(OperatorsList.MULT)) {
+        this.buildTree(lineWithoutSpaces, MathOperations.mult, parentIndex, currentIndex);
+    } else if (lineWithoutSpaces.includes(OperatorsList.DIVISION)) {
+        this.buildTree(lineWithoutSpaces, MathOperations.division, parentIndex, currentIndex);
+    } else if (lineWithoutSpaces.includes(OperatorsList.POW)) {
+        this.buildTree(lineWithoutSpaces, MathOperations.power, parentIndex, currentIndex);
     }
+}
 
     private buildTree(lineWithoutSpaces: string, mathOperator: MathOperator, parentIndex: number, currentIndex: number) {
-        const operands = this.findOperands(lineWithoutSpaces, mathOperator.userOperator);
-        if (parentIndex === undefined && currentIndex === undefined) {
-            this.complexExpressionTree = {
-                operation: mathOperator.operation,
-                operands
-            }
-            operands.forEach((operand, index) => {
-                if (this.codeContainsOperator(operand)) {
-                    this.keepDecomposing(operand, index);
-                }
-            });
-        } else if (currentIndex !== undefined && parentIndex === undefined) {
-            this.complexExpressionTree.operands[currentIndex] = {
-                operation: mathOperator.operation,
-                operands
-            }
-            operands.forEach((operand, index) => {
-                if (this.codeContainsOperator(operand)) {
-                    this.keepDecomposing(operand, index, currentIndex);
-                }
-            });
-        } else if (parentIndex !== undefined && currentIndex !== undefined) {
-            this.complexExpressionTree.operands[parentIndex].operands[currentIndex] = {
-                operation: mathOperator.operation,
-                operands
-            }
-            operands.forEach((operand, index) => {
-                if (this.codeContainsOperator(operand)) {
-                    this.keepDecomposing(operand, index, parentIndex);
-                }
-            });
+    const operands = this.findOperands(lineWithoutSpaces, mathOperator.userOperator);
+    if (parentIndex === undefined && currentIndex === undefined) {
+        this.complexExpressionTree = {
+            operation: mathOperator.operation,
+            operands
         }
+        operands.forEach((operand, index) => {
+            if (this.codeContainsOperator(operand)) {
+                this.keepDecomposing(operand, index);
+            }
+        });
+    } else if (currentIndex !== undefined && parentIndex === undefined) {
+        this.complexExpressionTree.operands[currentIndex] = {
+            operation: mathOperator.operation,
+            operands
+        }
+        operands.forEach((operand, index) => {
+            if (this.codeContainsOperator(operand)) {
+                this.keepDecomposing(operand, index, currentIndex);
+            }
+        });
+    } else if (parentIndex !== undefined && currentIndex !== undefined) {
+        this.complexExpressionTree.operands[parentIndex].operands[currentIndex] = {
+            operation: mathOperator.operation,
+            operands
+        }
+        operands.forEach((operand, index) => {
+            if (this.codeContainsOperator(operand)) {
+                this.keepDecomposing(operand, index, parentIndex);
+            }
+        });
     }
+}
 
     private constructJSLine(conditionExpression: ConditionExpression, compareExpression: CompareExpression, decomposedLeft: BaseToken, decomposedRight: BaseToken): string {
-        const leftExpression = this.constructExpression(decomposedLeft);
-        const rightExpression = this.constructExpression(decomposedRight);
-        let constructedLine = '';
-        if (conditionExpression.condition === 'if') {
-            constructedLine = `${conditionExpression.condition}(${leftExpression}${compareExpression.comparator}${rightExpression})`;
-        } else if (conditionExpression.condition === 'then') {
-            constructedLine = `{${leftExpression}${compareExpression.comparator}${rightExpression}}`;
-        } else if (conditionExpression.condition === 'else') {
-            constructedLine = `${conditionExpression.condition}{${leftExpression}${compareExpression.comparator}${rightExpression}}`;
-        }
-        return constructedLine;
+    const leftExpression = this.constructExpression(decomposedLeft);
+    const rightExpression = this.constructExpression(decomposedRight);
+    let constructedLine = '';
+    if (conditionExpression.condition === 'if') {
+        constructedLine = `${conditionExpression.condition}(${leftExpression}${compareExpression.comparator}${rightExpression})`;
+    } else if (conditionExpression.condition === 'then') {
+        constructedLine = `{${leftExpression}${compareExpression.comparator}${rightExpression}}`;
+    } else if (conditionExpression.condition === 'else') {
+        constructedLine = `${conditionExpression.condition}{${leftExpression}${compareExpression.comparator}${rightExpression}}`;
     }
+    return constructedLine;
+}
 
     private constructExpression(exprTree: any): string {
-        let expr = '';
-        if (typeof exprTree === 'string') {
-            return expr = exprTree;
-        } else if (exprTree?.operands && exprTree.operands.every((operand: any) => {
-            return typeof operand === 'string';
-        })) {
-            return expr = `(${exprTree.operands.join(this.getJSOperator(exprTree.operation))})`;
-        } else if (exprTree?.operands) {
-            exprTree.operands.forEach((entry: any) => {
-                const operatorNeeded = expr.length > 0 ? this.getJSOperator(exprTree.operation) : '';
-                expr += operatorNeeded + this.constructExpression(entry);
-            });
-            return `(${expr})`;
-        }
+    let expr = '';
+    if (typeof exprTree === 'string') {
+        return expr = exprTree;
+    } else if (exprTree?.operands && exprTree.operands.every((operand: any) => {
+        return typeof operand === 'string';
+    })) {
+        return expr = `(${exprTree.operands.join(this.getJSOperator(exprTree.operation))})`;
+    } else if (exprTree?.operands) {
+        exprTree.operands.forEach((entry: any) => {
+            const operatorNeeded = expr.length > 0 ? this.getJSOperator(exprTree.operation) : '';
+            expr += operatorNeeded + this.constructExpression(entry);
+        });
+        return `(${expr})`;
     }
+}
 
     private getJSOperator(operation: string): string {
-        return MathOperations[operation.toLowerCase()].jsOperator;
-    }
+    return MathOperations[operation.toLowerCase()].jsOperator;
+}
 
     private codeContainsOperator(codeLine: string): boolean {
-        const hasOperand = codeLine.includes(OperatorsList.PLUS) ||
-            codeLine.includes(OperatorsList.MINUS) ||
-            codeLine.includes(OperatorsList.MULT) ||
-            codeLine.includes(OperatorsList.DIVISION) ||
-            codeLine.includes(OperatorsList.POW);
-        return hasOperand;
-    }
+    const hasOperand = codeLine.includes(OperatorsList.PLUS) ||
+        codeLine.includes(OperatorsList.MINUS) ||
+        codeLine.includes(OperatorsList.MULT) ||
+        codeLine.includes(OperatorsList.DIVISION) ||
+        codeLine.includes(OperatorsList.POW);
+    return hasOperand;
+}
 
     private buildCondition(codeLine: string): ConditionExpression {
-        const conditionExpression = {
-            condition: '',
-            expression: ''
-        }
-        if (codeLine.includes(OperatorsList.IF)) {
-            conditionExpression.condition = 'if';
-            conditionExpression.expression = codeLine.substring(OperatorsList.IF.length);
-        } else if (codeLine.includes(OperatorsList.ELSE)) {
-            conditionExpression.condition = 'else';
-            conditionExpression.expression = codeLine.substring(OperatorsList.ELSE.length);
-        } else if (codeLine.includes(OperatorsList.THEN)) {
-            conditionExpression.condition = 'then';
-            conditionExpression.expression = codeLine.substring(OperatorsList.THEN.length);
-        }
-        return conditionExpression;
+    const conditionExpression = {
+        condition: '',
+        expression: ''
     }
+    if (codeLine.includes(OperatorsList.IF)) {
+        conditionExpression.condition = 'if';
+        conditionExpression.expression = codeLine.substring(OperatorsList.IF.length);
+    } else if (codeLine.includes(OperatorsList.ELSE)) {
+        conditionExpression.condition = 'else';
+        conditionExpression.expression = codeLine.substring(OperatorsList.ELSE.length);
+    } else if (codeLine.includes(OperatorsList.THEN)) {
+        conditionExpression.condition = 'then';
+        conditionExpression.expression = codeLine.substring(OperatorsList.THEN.length);
+    }
+    return conditionExpression;
+}
 
     private buildCompare(codeLine: ConditionExpression): CompareExpression {
-        const decomposedLine = {
-            comparator: '',
-            left: '',
-            right: ''
-        }
-
-        if (codeLine.expression.includes(OperatorsList.EQUALS)) {
-            if (codeLine.condition === 'if') {
-                decomposedLine.comparator = '===';
-            } else if (codeLine.condition === 'else' || codeLine.condition === 'then') {
-                decomposedLine.comparator = '=';
-            }
-            decomposedLine.left = codeLine.expression.split(OperatorsList.EQUALS)[0];
-            decomposedLine.right = codeLine.expression.split(OperatorsList.EQUALS)[1];
-        } else if (codeLine.expression.includes(OperatorsList.LT)) {
-            decomposedLine.comparator = '<';
-            decomposedLine.left = codeLine.expression.split(OperatorsList.LT)[0];
-            decomposedLine.right = codeLine.expression.split(OperatorsList.LT)[1];
-        } else if (codeLine.expression.includes(OperatorsList.LTE)) {
-            decomposedLine.comparator = '<=';
-            decomposedLine.left = codeLine.expression.split(OperatorsList.LTE)[0];
-            decomposedLine.right = codeLine.expression.split(OperatorsList.LTE)[1];
-        } else if (codeLine.expression.includes(OperatorsList.GT)) {
-            decomposedLine.comparator = '>';
-            decomposedLine.left = codeLine.expression.split(OperatorsList.GT)[0];
-            decomposedLine.right = codeLine.expression.split(OperatorsList.GT)[1];
-        } else if (codeLine.expression.includes(OperatorsList.GTE)) {
-            decomposedLine.comparator = '>=';
-            decomposedLine.left = codeLine.expression.split(OperatorsList.GTE)[0];
-            decomposedLine.right = codeLine.expression.split(OperatorsList.GTE)[1];
-        }
-        return decomposedLine;
+    const decomposedLine = {
+        comparator: '',
+        left: '',
+        right: ''
     }
+
+    if (codeLine.expression.includes(OperatorsList.EQUALS)) {
+        if (codeLine.condition === 'if') {
+            decomposedLine.comparator = '===';
+        } else if (codeLine.condition === 'else' || codeLine.condition === 'then') {
+            decomposedLine.comparator = '=';
+        }
+        decomposedLine.left = codeLine.expression.split(OperatorsList.EQUALS)[0];
+        decomposedLine.right = codeLine.expression.split(OperatorsList.EQUALS)[1];
+    } else if (codeLine.expression.includes(OperatorsList.LT)) {
+        decomposedLine.comparator = '<';
+        decomposedLine.left = codeLine.expression.split(OperatorsList.LT)[0];
+        decomposedLine.right = codeLine.expression.split(OperatorsList.LT)[1];
+    } else if (codeLine.expression.includes(OperatorsList.LTE)) {
+        decomposedLine.comparator = '<=';
+        decomposedLine.left = codeLine.expression.split(OperatorsList.LTE)[0];
+        decomposedLine.right = codeLine.expression.split(OperatorsList.LTE)[1];
+    } else if (codeLine.expression.includes(OperatorsList.GT)) {
+        decomposedLine.comparator = '>';
+        decomposedLine.left = codeLine.expression.split(OperatorsList.GT)[0];
+        decomposedLine.right = codeLine.expression.split(OperatorsList.GT)[1];
+    } else if (codeLine.expression.includes(OperatorsList.GTE)) {
+        decomposedLine.comparator = '>=';
+        decomposedLine.left = codeLine.expression.split(OperatorsList.GTE)[0];
+        decomposedLine.right = codeLine.expression.split(OperatorsList.GTE)[1];
+    }
+    return decomposedLine;
+}
 
     private findOperands(lineWithoutSpaces: string, operator: string): string[] {
-        const tokens: string[] = [];
-        const arrayWithoutOperand = lineWithoutSpaces.split(operator);
-        arrayWithoutOperand.forEach((operand) => {
-            tokens.push(operand);
-        });
-        return tokens;
-    }
+    const tokens: string[] = [];
+    const arrayWithoutOperand = lineWithoutSpaces.split(operator);
+    arrayWithoutOperand.forEach((operand) => {
+        tokens.push(operand);
+    });
+    return tokens;
+}
 
     private callJSFunction(jsString: string): void {
-        console.log('STORED INPUT', this.storedInput);
-        const a = +this.storedInput[0];
-        const b = +this.storedInput[1];
-        const c = +this.storedInput[2];
-        const d = +this.storedInput[3];
-        const e = +this.storedInput[4];
-        const f = +this.storedInput[5];
-        const vars = `const a = ${a};const b = ${b};const c = ${c};const d = ${d};const e = ${e};const f = ${f};let x = undefined;`
+    console.log('STORED INPUT', this.storedInput);
+    const a = +this.storedInput[0];
+    const b = +this.storedInput[1];
+    const c = +this.storedInput[2];
+    const d = +this.storedInput[3];
+    const e = +this.storedInput[4];
+    const f = +this.storedInput[5];
+    const vars = `const a = ${a};const b = ${b};const c = ${c};const d = ${d};const e = ${e};const f = ${f};let x = undefined;`
         const funcWithVars = vars.concat(jsString);
-        const funcWithFunc = `function calculateLuckyTicket(){${funcWithVars}return x}; calculateLuckyTicket();`
+    const funcWithFunc = `function calculateLuckyTicket(){${funcWithVars}return x}; calculateLuckyTicket();`
         const calculatedValue = eval(funcWithFunc);
-        console.log('Calculated Value', calculatedValue);
-    }
+    console.log('Calculated Value', calculatedValue);
+}
 
-    parameters(): KioParameterDescription[] {
-        return [
-            {
-                name: "steps",
-                title: "Количество шагов",
-                ordering: 'maximize',
-                view: "ш"
-            },
-            {
-                name: "max",
-                title: "Максимальное число",
-                ordering: 'minimize',
-                view: function (val) {
-                    return '[' + val + ']'
-                }
+parameters(): KioParameterDescription[] {
+    return [
+        {
+            name: "ifs",
+            title: "Количество 'если': ",
+            ordering: 'maximize',
+            view: "ш"
+        },
+        {
+            name: "CodeLength",
+            title: "Длина кода: ",
+            ordering: 'minimize',
+            view: function (val) {
+                return '[' + val + ']'
             }
-        ];
-    }
+        }
+    ];
+}
 
-    /*static preloadManifest(): KioResourceDescription[] {
-        return [
-            {id: "1", src: "collatz_es_next-resources/collatz_conjecture.png"}
-        ];
-    };*/
+/*static preloadManifest(): KioResourceDescription[] {
+    return [
+        {id: "1", src: "collatz_es_next-resources/collatz_conjecture.png"}
+    ];
+};*/
 
-    solution(): Solution {
-        return {};
-    };
+solution(): Solution {
+    return {};
+};
 
-    loadSolution(solution: Solution): void {
-    }
+loadSolution(solution: Solution): void {
+}
 }
 
 interface Solution {
