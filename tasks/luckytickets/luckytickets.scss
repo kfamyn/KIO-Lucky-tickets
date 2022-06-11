@@ -1,12 +1,12 @@
 .kio-base-box {
     display: grid;
-    grid-template-columns: 35% 65%;
-    grid-template-rows: 50% 50%;
+    grid-template-columns: 630px;
+    grid-template-rows: 60% 60%;
     font-family: 'Montserrat', "Times New Roman", Arial, Helvetica, sans-serif;
 
     .tickets-container {
         display: grid;
-        grid-template-columns: 210px 210px 210px;
+        grid-template-columns: 200px 200px 200px;
         height: 250px;
 
         .input-ticket-container {
@@ -119,6 +119,7 @@
     }
 
     .buttons-container {
+        grid-template-rows: 15px 75px 75px;
         height: 250px;
         display: grid;
         grid-template-columns: 180px 180px;
@@ -286,7 +287,7 @@
         grid-row-end: 3;
         // display: grid;
         // grid-template-columns: 5% 95%;
-        height: 700px;
+        height: 550px;
         overflow: auto;
         border-bottom: #767676 solid 1px;
 

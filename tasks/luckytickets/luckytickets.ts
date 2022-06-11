@@ -349,7 +349,9 @@ a, b, c, d, e, f посимвольно, так что пользователю 
 алгоритма, рассчитаного по формуле: ((3000*7)/(длина алгоритма пользователя, преобразованная в \
 JS, в символах* количество условий 'если' в преобразованном коде))*100. Числа подобраны таким \
 образом, поскольку алгоритм авторов имеет примерно 3000 символов и 7 условий if, таким образом, \
-получает оценку эффективности 100. Однако предел эффективности еще предстоит исследовать участникам олимпиады.")
+получает оценку эффективности 100. Однако предел эффективности еще предстоит исследовать участникам олимпиады.\n\n\
+Кнопки в нижней части страницы работают только при подключении к серверу, однако версия сайта тестовая и еще не \
+опубликована.")
         });
 
         const instantResultButton = document.createElement('button');
@@ -370,22 +372,16 @@ JS, в символах* количество условий 'если' в пр�
             code += (Blockly as any).JavaScript.workspaceToCode(workspace);
             code += '\nreturn result;\n}\n\n';
             code += 'UserResult = UserTicket(ticket);'
-            console.log(code);
             let input = document.querySelector('input');
-            console.log(input.value);
-            console.log(nextTicket(input.value))
             ticket = input.value;
             const outputField = <HTMLInputElement>document.getElementById('output-field');
             const rightOutputField = <HTMLInputElement>document.getElementById('rightOutput-field');
             try {
                 eval(code);
-                console.log(UserResult);
                 if (UserResult == nextTicket(input.value)) {
-                    console.log("right");
                     outputField.style.color = "green"
                 }
                 else {
-                    console.log("wrong");
                     outputField.style.color = "#ff9999"
                 }
             } catch (e) {
@@ -469,8 +465,8 @@ JS, в символах* количество условий 'если' в пр�
             code += 'if(!result) {\nresult = String(u) + String(v) + String(w) + String(x) + String(y) + String(z)\n}'
             code += '\nreturn result;\n}\n\n';
             code += 'UserResult = UserTicket(ticket);'
-            alert(code);
             console.log(code);
+            alert(code);
         })
 
         demoButton.addEventListener('click', (event) => {
@@ -492,22 +488,16 @@ JS, в символах* количество условий 'если' в пр�
                 code += 'if(!result) {\nresult = String(u) + String(v) + String(w) + String(x) + String(y) + String(z)\n}'
                 code += '\nreturn result;\n}\n\n';
                 code += 'UserResult = UserTicket(ticket);'
-                console.log(code);
                 let input = document.querySelector('input');
-                console.log(input.value);
-                console.log(nextTicket(input.value))
                 ticket = input.value;
                 const outputField = <HTMLInputElement>document.getElementById('output-field');
                 const rightOutputField = <HTMLInputElement>document.getElementById('rightOutput-field');
                 try {
                     eval(code);
-                    console.log(UserResult);
                     if (UserResult == nextTicket(input.value)) {
-                        console.log("right");
                         outputField.style.color = "green"
                     }
                     else {
-                        console.log("wrong");
                         outputField.style.color = "#ff9999"
                     }
                 } catch (e) {
