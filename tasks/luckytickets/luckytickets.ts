@@ -237,12 +237,12 @@ export class Luckytickets implements KioTask {
 
         const outputTicketTitle = document.createElement('div');
         outputTicketTitle.className = 'output-ticket-title';
-        outputTicketTitle.innerText = 'Следующий\nсчастливый билет';
+        outputTicketTitle.innerText = 'Пользовательский\nответ';
         outputTicketContainer.appendChild(outputTicketTitle);
 
         const outputTicketImage = document.createElement('div');
         outputTicketImage.className = 'output-ticket-image';
-        outputTicketImage.innerHTML = '<input disabled class="output-number" id="output-field" placeholder="xyzuvw">';
+        outputTicketImage.innerHTML = '<input disabled class="output-number" id="output-field" placeholder="uvwxyz">';
         outputTicketContainer.appendChild(outputTicketImage);
 
         ticketsContainer.appendChild(outputTicketContainer);
@@ -253,16 +253,16 @@ export class Luckytickets implements KioTask {
 
         const rightOutputTicketTitle = document.createElement('div');
         rightOutputTicketTitle.className = 'rightOutput-ticket-title';
-        rightOutputTicketTitle.innerText = 'Следующий\nсчастливый билет';
+        rightOutputTicketTitle.innerText = 'Правильный\nответ';
         rightOutputTicketContainer.appendChild(rightOutputTicketTitle);
 
         const rightOutputTicketImage = document.createElement('div');
         rightOutputTicketImage.className = 'rightOutput-ticket-image';
-        rightOutputTicketImage.innerHTML = '<input disabled class="rightOutput-number" id="rightOutput-field" placeholder="xyzuvw">';
+        rightOutputTicketImage.innerHTML = '<input disabled class="rightOutput-number" id="rightOutput-field" placeholder="uvwxyz">';
         rightOutputTicketContainer.appendChild(rightOutputTicketImage);
 
         ticketsContainer.appendChild(rightOutputTicketContainer);
-        
+
         // const codeEditor = document.createElement('div');
         // codeEditor.className = 'code-editor';
         // codeEditor.innerHTML = '<div class="code-editor-header" id="code-editor-header-id"></div><div class="code-lines" id="ruler"></div><textarea id="text-from-editor"></textarea>';
@@ -307,6 +307,12 @@ export class Luckytickets implements KioTask {
         workspace.createVariable('e');
         workspace.createVariable('f');
         workspace.createVariable('result');
+        workspace.createVariable('u');
+        workspace.createVariable('v');
+        workspace.createVariable('w');
+        workspace.createVariable('x');
+        workspace.createVariable('y');
+        workspace.createVariable('z');
         // const button = document.getElementById('blocklyButton');
         // button.addEventListener('click', function () {
         //     alert("Check the console for the generated output.");
@@ -320,10 +326,32 @@ export class Luckytickets implements KioTask {
 
         const stepPlusButton = document.createElement('button');
         stepPlusButton.className = 'step-plus-button';
-        stepPlusButton.innerText = 'СЛЕДУЮЩАЯ ОШИБКА';
+        stepPlusButton.innerText = 'СПРАВКА';
         buttonsContainer.appendChild(stepPlusButton);
         stepPlusButton.addEventListener('click', (event) => {
-            exportBlocks();
+            window.alert("Данный веб-сайт предназначен для решения участниками\
+олимпиады задачи о написании алгоритма поиска следующего счастливого билета.\n\
+Для написания алгоритма участникам предлагается набор функций, которые необходимо \
+расположить в рабочей области (справа). Номер билета задается через переменные \
+a, b, c, d, e, f посимвольно, так что пользователю нужно работать именно с ними. \
+Итоговый результат работы алгоритма (номер следующего счастливого билета) можно сохранять \
+как посимвольно (в переменные u, v, w, x, y, z), так и как целое число в переменную result.\n\n\
+МГНОВЕННЫЙ РЕЗУЛЬТАТ: после ввода в графу 'Текущий номер билета' выводит результат работы \
+пользовательского алгоритма и правильный номер следующего счастливого билета.\n\nПОКАЗАТЬ КОД: \
+показывает текущий алгоритм пользователя, преобразованный в код на JavaScript, для лучшего \
+понимания участниками олимпиады, изучающими программирование, условие задания. Код в любое \
+время можно скопировать из консоли разработчика (Google Chrome: F12, console).\n\nНажмите ОК, \
+чтобы продолжить");
+            window.alert("ЗАПУСК: запускает алгоритм проверки результатов работы пользовательского \
+алгоритма. Результат проверяется на 10000 случайных номерах. В случае некорректности \
+алгоритма, уведомляет пользователя и останавливается на номере, где алгоритм сработал неверно. \
+В случае успешного прохождения проверки, уведомляет пользователя и сообщает об эффективности \
+алгоритма, рассчитаного по формуле: ((3000*7)/(длина алгоритма пользователя, преобразованная в \
+JS, в символах* количество условий 'если' в преобразованном коде))*100. Числа подобраны таким \
+образом, поскольку алгоритм авторов имеет примерно 3000 символов и 7 условий if, таким образом, \
+получает оценку эффективности 100. Однако предел эффективности еще предстоит исследовать участникам олимпиады.\n\n\
+Кнопки в нижней части страницы работают только при подключении к серверу, однако версия сайта тестовая и еще не \
+опубликована.")
         });
 
         const instantResultButton = document.createElement('button');
@@ -331,16 +359,44 @@ export class Luckytickets implements KioTask {
         instantResultButton.className = 'instant-result-button';
         buttonsContainer.appendChild(instantResultButton);
         instantResultButton.addEventListener('click', (event) => {
-            if (this.storedInput?.length) {
-                const outputField = <HTMLInputElement>document.getElementById('output-field');
-                if (outputField) {
-                    outputField.value = this.storedInput;
+            var UserResult, ticket;
+            var set_function = 'function UserTicket(ticket) {\n'
+            var setting_variables = 'var a, b, c, d, e, f, result;'
+            var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;'
+            var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;'
+            var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;'
+            var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;'
+            var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;'
+            var setting_f = 'f = (ticket % 10 - ticket % 1);'
+            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
+            code += (Blockly as any).JavaScript.workspaceToCode(workspace);
+            code += '\nreturn result;\n}\n\n';
+            code += 'UserResult = UserTicket(ticket);'
+            let input = document.querySelector('input');
+            ticket = input.value;
+            const outputField = <HTMLInputElement>document.getElementById('output-field');
+            const rightOutputField = <HTMLInputElement>document.getElementById('rightOutput-field');
+            try {
+                eval(code);
+                if (UserResult == nextTicket(input.value)) {
+                    outputField.style.color = "green"
                 }
+                else {
+                    outputField.style.color = "#ff9999"
+                }
+            } catch (e) {
+                alert(e);
             }
+            if (UserResult) {
+                outputField.value = ('000000' + UserResult).slice(-6);
+            }
+            rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+            if (!input.value)
+                input.value = '000000'
         });
 
         const stepMinusButton = document.createElement('button');
-        stepMinusButton.innerText = 'ПРЕДЫДУЩАЯ ОШИБКА';
+        stepMinusButton.innerText = 'КОД АЛГОРИТМА';
         stepMinusButton.className = 'step-minus-button';
         buttonsContainer.appendChild(stepMinusButton);
         stepMinusButton.addEventListener('click', (event) => {
@@ -354,110 +410,138 @@ export class Luckytickets implements KioTask {
 
         function exportBlocks() {
             try {
-              var xml = Blockly.Xml.workspaceToDom(workspace);
-              var xml_text = Blockly.Xml.domToText(xml);
-                
-              var link = document.createElement('a');
-              link.download="project.txt";
-              link.href="data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
-              document.body.appendChild(link);
-              link.click();
-              link.remove();
-            } catch (e) {
-              window.location.href="data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
-              alert(e);
-            }
-          }
-              
-          function importBlocks() {
-            try {
-              var xml_text = prompt("Please enter XML code", "");
-              var xml = Blockly.Xml.textToDom(xml_text);
-              workspace.clear();
-              Blockly.Xml.domToWorkspace(xml, workspace);
-            } catch (e) {
-              alert(e);
-            }
-          }
+                var xml = Blockly.Xml.workspaceToDom(workspace);
+                var xml_text = Blockly.Xml.domToText(xml);
 
-          function importBlocksFile(element) {
-            try {	
-              var file = element.files[0];
-              var fr = new FileReader();           
-              fr.onload = function (event) {
-                var xml = Blockly.Xml.textToDom(<string>event.target.result);
+                var link = document.createElement('a');
+                link.download = "project.txt";
+                link.href = "data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            } catch (e) {
+                window.location.href = "data:application/octet-stream;utf-8," + encodeURIComponent(xml_text);
+                alert(e);
+            }
+        }
+
+        function importBlocks() {
+            try {
+                var xml_text = prompt("Please enter XML code", "");
+                var xml = Blockly.Xml.textToDom(xml_text);
                 workspace.clear();
                 Blockly.Xml.domToWorkspace(xml, workspace);
-              };
-              fr.readAsText(file);
             } catch (e) {
-              alert(e);
-            }	  
-          }
+                alert(e);
+            }
+        }
 
-          stepMinusButton.addEventListener('click', (event) => {
-            importBlocksFile("project.txt");
-          })
+        function importBlocksFile(element) {
+            try {
+                var file = element.files[0];
+                var fr = new FileReader();
+                fr.onload = function (event) {
+                    var xml = Blockly.Xml.textToDom(<string>event.target.result);
+                    workspace.clear();
+                    Blockly.Xml.domToWorkspace(xml, workspace);
+                };
+                fr.readAsText(file);
+            } catch (e) {
+                alert(e);
+            }
+        }
 
-        demoButton.addEventListener('click', (event) => {
-            var UserResult, ticket, CountRight = 0;
+        stepMinusButton.addEventListener('click', (event) => {
             var set_function = 'function UserTicket(ticket) {\n'
-            var setting_variables = 'var a, b, c, d, e, f, result;'
+            var setting_variables = 'var a, b, c, d, e, f, result, x = 0, y = 0, z = 0, u = 0, v = 0, w = 0;'
             var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;'
             var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;'
             var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;'
             var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;'
             var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;'
             var setting_f = 'f = (ticket % 10 - ticket % 1);'
-            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' +setting_c + '\n' +setting_d + '\n' +setting_e + '\n' + setting_f;
-            //var code = set_function;
+            var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
             code += (Blockly as any).JavaScript.workspaceToCode(workspace);
-            code += '\n return result;\n}\n\n';
+            code += 'if(!result) {\nresult = String(u) + String(v) + String(w) + String(x) + String(y) + String(z)\n}'
+            code += '\nreturn result;\n}\n\n';
             code += 'UserResult = UserTicket(ticket);'
             console.log(code);
-            let input = document.querySelector('input');
-            console.log(input.value);
-            console.log(nextTicket(input.value))
-            ticket = input.value;
-            const outputField = <HTMLInputElement>document.getElementById('output-field');
-            const rightOutputField = <HTMLInputElement>document.getElementById('rightOutput-field');
-            try {
-                eval(code);
-                console.log(UserResult);
-                if (UserResult == nextTicket(input.value))
-                {
-                    console.log("right");
-                    outputField.style.color = "green"
-                }
-                else
-                {
-                    console.log("wrong");
-                    outputField.style.color = "#ff9999"
-                }
-            } catch (e) {
-                alert(e);
+            alert(code);
+        })
+
+        demoButton.addEventListener('click', (event) => {
+            if (!(Blockly as any).JavaScript.workspaceToCode(workspace)) {
+                window.alert("Алгоритм не написан!");
             }
-            if (UserResult)
-            {
-                outputField.value = ('000000' + UserResult).slice(-6);
-            }
-            rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
-            if (!input.value)
-            input.value = '000000'
-            for (var i = 0; i < 1; i++)
-            {
-                ticket = i;
+            else {
+                var UserResult, ticket, CountRight = 0;
+                var set_function = 'function UserTicket(ticket) {\n'
+                var setting_variables = 'var a, b, c, d, e, f, result, x = 0, y = 0, z = 0, u = 0, v = 0, w = 0;'
+                var setting_a = 'a = (ticket % 1000000 - ticket % 100000) / 100000;'
+                var setting_b = 'b = (ticket % 100000 - ticket % 10000) / 10000;'
+                var setting_c = 'c = (ticket % 10000 - ticket % 1000) / 1000;'
+                var setting_d = 'd = (ticket % 1000 - ticket % 100) / 100;'
+                var setting_e = 'e = (ticket % 100 - ticket % 10) / 10;'
+                var setting_f = 'f = (ticket % 10 - ticket % 1);'
+                var code = set_function + '\n' + setting_variables + '\n' + setting_a + '\n' + setting_b + '\n' + setting_c + '\n' + setting_d + '\n' + setting_e + '\n' + setting_f + '\n';
+                code += (Blockly as any).JavaScript.workspaceToCode(workspace);
+                code += 'if(!result) {\nresult = String(u) + String(v) + String(w) + String(x) + String(y) + String(z)\n}'
+                code += '\nreturn result;\n}\n\n';
+                code += 'UserResult = UserTicket(ticket);'
+                let input = document.querySelector('input');
+                ticket = input.value;
+                const outputField = <HTMLInputElement>document.getElementById('output-field');
+                const rightOutputField = <HTMLInputElement>document.getElementById('rightOutput-field');
                 try {
                     eval(code);
+                    if (UserResult == nextTicket(input.value)) {
+                        outputField.style.color = "green"
+                    }
+                    else {
+                        outputField.style.color = "#ff9999"
+                    }
                 } catch (e) {
                     alert(e);
                 }
-                if (UserResult == nextTicket(ticket))
-                {
-                    CountRight++;
+                if (UserResult) {
+                    outputField.value = ('000000' + UserResult).slice(-6);
                 }
+                rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+                if (!input.value)
+                    input.value = '000000'
+                let IfCount = (code.split("if").length - 1) - 1;
+                    if (IfCount == 0) {
+                        let Efficiency = (2100000 / (code.length-503)) / 1
+                    }
+                let Efficiency = (2100000 / (code.length-503)) / IfCount
+                for (var i = 0; i < 10001; i++) {
+                    ticket = Math.floor(Math.random() * 999998);
+                    input.value = ('000000' + ticket).slice(-6);
+                    try {
+                        eval(code);
+                    } catch (e) {
+                        alert(e);
+                    }
+                    if (UserResult != nextTicket(ticket)) {
+                        outputField.style.color = "#ff9999"
+                        if (!UserResult) {
+                            UserResult = 0;
+                        }
+                        outputField.value = ('000000' + UserResult).slice(-6);
+                        rightOutputField.value = ('000000' + nextTicket(input.value)).slice(-6);
+                        window.alert("Алгоритм работает неверно!");
+                        this.history_updated(IfCount, (code.length-503), '0');
+                        break;
+                    }
+                    else {
+                        CountRight++
+                    }
+                }
+                if (CountRight == 10001) {
+                    window.alert("Алгоритм работает верно! Эффективность алгоритма =" + Efficiency);
+                    this.history_updated(IfCount, (code.length-503), Efficiency);
+                }    
             }
-            console.log(CountRight);
             // document.getElementById('textarea').value = code;
             // var myblocks = (Blockly as any).mainWorkspace.getAllBlocks();
             // for (var i=0; i<myblocks.length; i++){
@@ -556,6 +640,7 @@ export class Luckytickets implements KioTask {
                 key = negative(ticket);
             }
             else {
+
                 key = positive(ticket);
             }
             return (key);
@@ -807,22 +892,38 @@ export class Luckytickets implements KioTask {
     parameters(): KioParameterDescription[] {
         return [
             {
-                name: "steps",
-                title: "Количество шагов",
+                name: "Ifs",
+                title: "Количество 'если': ",
                 ordering: 'maximize',
-                view: "ш"
+                view: function (val) {
+                    return '' + val
+                },
             },
             {
-                name: "max",
-                title: "Максимальное число",
+                name: "CodeLength",
+                title: "Длина кода: ",
                 ordering: 'minimize',
                 view: function (val) {
-                    return '[' + val + ']'
+                    return '' + val
+                }
+            },
+            {
+                name: "Efficiency",
+                title: "Эффективность: ",
+                ordering: 'minimize',
+                view: function (val) {
+                    return '' + val
                 }
             }
         ];
     }
-
+    history_updated(IfCount, CodeLength, Efficiency) {
+        this.kioapi.submitResult({
+            "Ifs": IfCount,
+            "CodeLength": CodeLength,
+            "Efficiency": Efficiency,
+        });
+    }
     /*static preloadManifest(): KioResourceDescription[] {
         return [
             {id: "1", src: "collatz_es_next-resources/collatz_conjecture.png"}
@@ -839,3 +940,4 @@ export class Luckytickets implements KioTask {
 
 interface Solution {
 }
+
